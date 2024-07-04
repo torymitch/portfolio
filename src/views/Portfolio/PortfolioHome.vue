@@ -1,11 +1,12 @@
 <template>
-    Made It Here
+    Portfolio Is Under Construction
 </template>
 
 <script>
 export default {
-    mounted() {
-        alert(`Welcome To Your Portfolio.  You Have Visited ${this.$store.state.count} Times`)
+    async mounted() {
+        const info = await this.$store.dispatch('getSystemInfo')
+        alert(`Welcome To Your Portfolio.  You Have Visited ${this.$store.state.count} Times and The System Is ${info}`)
     },
 }
 </script>
