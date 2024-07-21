@@ -15,6 +15,9 @@ import store from './store/index.js'
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    defaultTheme: 'dark'
+  }
 })
 
 createApp(App).use(vuetify).use(router).use(store).mount('#app')
