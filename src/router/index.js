@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomePage from '../components/HomePage.vue'
 import PortfolioHome from '../views/Portfolio/PortfolioHome.vue'
 import WatchList from '../views/Portfolio/WatchList.vue'
+import CreateWatchList from '../views/Portfolio/CreateWatchList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'homePage',
+      component: HomePage
     },
     {
       path: '/about',
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/watchList',
       name: 'watchList',
       component: WatchList
+    },
+    {
+      path: '/createWatchList',
+      name: 'createWatchList',
+      component: CreateWatchList
     }
   ]
 })

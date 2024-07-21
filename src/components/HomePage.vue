@@ -1,27 +1,29 @@
 <template>
-  <WelcomeItem>
-    <template #icon>
-      <DocumentationIcon />
-    </template>
-    <RouterLink to="/portfolioHome">Portfolio</RouterLink>
-    Select this link to see your accounts
-  </WelcomeItem>
+  <main>
+    <WelcomeItem>
+      <template #icon>
+        <DocumentationIcon />
+      </template>
+      <RouterLink to="/portfolioHome">Portfolio</RouterLink>
+      Select this link to see your accounts
+    </WelcomeItem>
 
-  <WelcomeItem>
-    <template #icon>
-      <ToolingIcon />
-    </template>
-    <RouterLink to="/watchList">Watch List</RouterLink>
-    Select This To See Companies You're Interest In Learning More About
-  </WelcomeItem>
+    <WelcomeItem>
+      <template #icon>
+        <ToolingIcon />
+      </template>
+      <RouterLink to="/watchList">Watch List</RouterLink>
+      Select to choose a watch ist to view
+    </WelcomeItem>
 
-  <WelcomeItem>
-    <template #icon>
-      <ToolingIcon />
-    </template>
-    <RouterLink to="/createWatchList">Create Watch List</RouterLink>
-    Select This To Create A New Watch List
-  </WelcomeItem>
+    <WelcomeItem>
+      <template #icon>
+        <ToolingIcon />
+      </template>
+      <RouterLink to="/createWatchList">Create Watch List</RouterLink>
+      Select to create a new watch list
+    </WelcomeItem>
+  </main>
 </template>
 
 <script setup>
