@@ -12,7 +12,7 @@
       <ToolingIcon />
     </template>
     <RouterLink to="/watchList">Watch List</RouterLink>
-    Select to choose a watch ist to view
+    Select This To See Companies You're Interest In Learning More About
   </WelcomeItem>
 
   <WelcomeItem>
@@ -20,7 +20,7 @@
       <ToolingIcon />
     </template>
     <RouterLink to="/createWatchList">Create Watch List</RouterLink>
-    Select to create a new watch list
+    Select This To Create A New Watch List
   </WelcomeItem>
 </template>
 
