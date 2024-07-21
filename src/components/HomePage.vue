@@ -20,8 +20,16 @@
       <template #icon>
         <ToolingIcon />
       </template>
-      <RouterLink to="/createWatchList">Create Watch List</RouterLink>
+      <RouterLink to="/addWatchList">Create Watch List</RouterLink>
       Select to create a new watch list
+    </WelcomeItem>
+
+    <WelcomeItem>
+      <template #icon>
+        <ToolingIcon />
+      </template>
+      <RouterLink to="/about">About</RouterLink>
+      Select to learn details about the application
     </WelcomeItem>
   </main>
 </template>
