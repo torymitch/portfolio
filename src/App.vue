@@ -1,29 +1,35 @@
 <template>
-  <RouterView />
+  <v-app>
+    <header-toolbar />
+    <router-view />
+    <footer-toolbar />
+  </v-app>
 </template>
 
 <script setup>
 import { RouterView } from 'vue-router'
+import HeaderToolbar from '../src/components/Toolbars/HeaderToolbar.vue'
+import FooterToolbar from './components/Toolbars/FooterToolbar.vue'
 </script>
 
 <style scoped>
-header {
+/* .portfolioApp {
+  display: contents;
+} */
+
+/* header {
   line-height: 1.5;
   max-height: 100vh;
-}
+} */
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+/* nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
-}
+} */
 
+/*
 nav a.router-link-exact-active {
   color: var(--color-text);
 }
@@ -67,5 +73,5 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
+} */
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main min-height="90vh" min-width="1290px">
     <WelcomeItem>
       <template #icon>
         <DocumentationIcon />

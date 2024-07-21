@@ -12,6 +12,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index.js'
 
+import mdiVue from 'mdi-vue/v3'
+import * as mdijs from '@mdi/js'
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -20,4 +23,4 @@ const vuetify = createVuetify({
   }
 })
 
-createApp(App).use(vuetify).use(router).use(store).mount('#app')
+createApp(App).use(vuetify).use(router).use(store).use(mdiVue, { icons: mdijs }).mount('#app')
