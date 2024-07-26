@@ -36,8 +36,16 @@
       <template #icon>
         <ToolingIcon />
       </template>
-      <RouterLink to="/">Don't Click Me</RouterLink>
-      <v-btn class="ml-5" @click="raiseAlert">SpringBoot Back-End Test Call</v-btn>
+      <RouterLink to="/">Get User</RouterLink>
+      <v-btn class="ml-5" @click="raiseAlert">Get User</v-btn>
+    </WelcomeItem>
+
+    <WelcomeItem>
+      <template #icon>
+        <ToolingIcon />
+      </template>
+      <RouterLink to="/">Add User</RouterLink>
+      <v-btn class="ml-5" @click="raiseAlertObject">Add User</v-btn>
     </WelcomeItem>
   </main>
 </template>
@@ -59,15 +67,31 @@ export default {
   data() {
       return {
         info: '',
+        user: {
+          firstName: 'Nancy',
+          lastName: 'Reagan'
+        },
       }
   },
   methods: {
     raiseAlert() {
-      console.log('Made It Here - Test SB Call')
       axios
-        .get('http://localhost:8080/getUser?lastName=Jones&firstname=Tim')
+        .get('http://localhost:8080/getUser?lastName=Jones&firstName=Tim')
         .then(response => {
-          toast(response.data, {
+          toast("Welcome " + response.data + ", thank you for joining us", {
+            autoClose: 1000,
+          })
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    },
+    raiseAlertObject() {
+      axios
+        .post('http://localhost:8080/addUser', this.user)
+        .then(response => {
+          toast(response.data.firstName + " " + response.data.lastName + " created succesfully", {
             autoClose: 1000,
           })
         })
