@@ -6,39 +6,7 @@ const store = new Vuex.Store({
     return {
       baseURL: 'http://localhost:8080/',
       userStateUpdate: false,
-      users: [
-        // {
-        //     firstName: 'Donovan',
-        //     lastName: 'McNabb',
-        //     userName: 'dmcnabb',
-        //     phone: '703-190-7498',
-        // }, {
-        //     firstName: 'Randall',
-        //     lastName: 'Cunningham',
-        //     userName: 'rcunningham',
-        //     phone: '703-240-6098',
-        // }, {
-        //     firstName: 'Jalen',
-        //     lastName: 'Hurts',
-        //     userName: 'jhurts',
-        //     phone: '703-240-3565',
-        // }, {
-        //     firstName: 'Carson',
-        //     lastName: 'Wentz',
-        //     userName: 'cwentz',
-        //     phone: '703-240-6789',
-        // }, {
-        //     firstName: 'Michael',
-        //     lastName: 'Vick',
-        //     userName: 'mvick',
-        //     phone: '703-240-9401',
-        // }, {
-        //   firstName: 'Ron',
-        //   lastName: 'Jaworski',
-        //   userName: 'rjaws',
-        //   phone: '703-240-7101',
-        // }
-      ],
+      users: [],
     }
   },
   actions: {
