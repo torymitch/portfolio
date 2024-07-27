@@ -36,6 +36,15 @@
       <template #icon>
         <ToolingIcon />
       </template>
+      <RouterLink to="/users">Users</RouterLink>
+      Select to see users in the application
+    </WelcomeItem>
+
+
+    <WelcomeItem>
+      <template #icon>
+        <ToolingIcon />
+      </template>
       <RouterLink to="/">Get User</RouterLink>
       <v-btn class="ml-5" @click="raiseAlert">Get User</v-btn>
     </WelcomeItem>

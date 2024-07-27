@@ -4,25 +4,69 @@ import axios from 'axios'
 const store = new Vuex.Store({
   state() {
     return {
-      count: 0,
-      lastBuildDate: ''
+      baseURL: 'http://localhost:8080/',
+      userStateUpdate: false,
+      users: [
+        // {
+        //     firstName: 'Donovan',
+        //     lastName: 'McNabb',
+        //     userName: 'dmcnabb',
+        //     phone: '703-190-7498',
+        // }, {
+        //     firstName: 'Randall',
+        //     lastName: 'Cunningham',
+        //     userName: 'rcunningham',
+        //     phone: '703-240-6098',
+        // }, {
+        //     firstName: 'Jalen',
+        //     lastName: 'Hurts',
+        //     userName: 'jhurts',
+        //     phone: '703-240-3565',
+        // }, {
+        //     firstName: 'Carson',
+        //     lastName: 'Wentz',
+        //     userName: 'cwentz',
+        //     phone: '703-240-6789',
+        // }, {
+        //     firstName: 'Michael',
+        //     lastName: 'Vick',
+        //     userName: 'mvick',
+        //     phone: '703-240-9401',
+        // }, {
+        //   firstName: 'Ron',
+        //   lastName: 'Jaworski',
+        //   userName: 'rjaws',
+        //   phone: '703-240-7101',
+        // }
+      ],
     }
   },
   actions: {
     async getSystemInfo(state) {
       await axios.get('http://localhost:5173/api/systemInfo')
       this.commit('updateBuildDate', state, new Date())
+    },
+    async fetchUsers({commit, state}) {
+      axios
+        .get(state.baseURL + 'getUsers')
+        .then(response => {
+          commit('setUsers', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   getters: {
-    lastBuildDate(state) {
-      return state.lastBuildDate
-    }
+    // async getUsers(state) {
+    //   return state.users
+    // }
   },
   mutations: {
-    updateBuildDate(state, response) {
-      state.lastBuildDate = response.data
-    }
+    setUsers(state, response) {
+      state.users = response.data
+      !state.userStateUpdate
+    },
   }
 })
 

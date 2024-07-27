@@ -4,6 +4,7 @@ import PortfolioHome from '../components/Portfolio/PortfolioHome.vue'
 import WatchList from '../components/Watchlist/WatchList.vue'
 import AddWatchList from '../components/Watchlist/AddWatchList.vue'
 import AboutView from '../components/AboutView.vue'
+import Users from '../components/Users/AllUsers.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/addWatchList',
       name: 'addWatchList',
       component: AddWatchList
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: Users
     }
   ]
 })
