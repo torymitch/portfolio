@@ -1,16 +1,15 @@
 <template>
-    <v-app>
-    <v-container v-if="loaded">
+    <v-container v-if="loaded" class="table theme--dark" >
         <v-data-table 
+            class="v-datatable v-table v-theme--dark"
             :headers="headers"
             :items="users"
             :items-per-page="usersPerPage"
             density="compact"
             :item-key="users.userName"
         >
-    </v-data-table>
+        </v-data-table>
     </v-container>
-  </v-app>
 </template>
 
 <script>
@@ -44,3 +43,8 @@ export default {
 }
 
 </script>
+<style scoped>
+.table{
+    min-width: 100dvw;
+}
+</style>

@@ -28,20 +28,19 @@
       <template #icon>
         <ToolingIcon />
       </template>
-      <RouterLink to="/about">About</RouterLink>
-      Select to learn details about the application
+      <RouterLink to="/users">Users</RouterLink>
+      Select to see users in the application
     </WelcomeItem>
 
     <WelcomeItem>
       <template #icon>
         <ToolingIcon />
       </template>
-      <RouterLink to="/users">Users</RouterLink>
-      Select to see users in the application
+      <RouterLink to="/about">About</RouterLink>
+      Select to learn details about the application
     </WelcomeItem>
 
-
-    <WelcomeItem>
+    <!-- <WelcomeItem>
       <template #icon>
         <ToolingIcon />
       </template>
@@ -55,7 +54,7 @@
       </template>
       <RouterLink to="/">Add User</RouterLink>
       <v-btn class="ml-5" @click="raiseAlertObject">Add User</v-btn>
-    </WelcomeItem>
+    </WelcomeItem> -->
   </main>
 </template>
 
