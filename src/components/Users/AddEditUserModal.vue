@@ -16,7 +16,7 @@
             type="button"
             class="btn-close"
             @click="close"
-            aria-label="Close modal"
+            aria-label="Close"
           >
             x
           </button>
@@ -39,32 +39,32 @@
         </section>
 
         <footer class="modal-footer">
-          <div v-if="updateType=== 'Add'">
-            <button
-              type="button"
-              class="btn-green"
-              @click="update"
-            >
-              {{updateType}} User
+          <div class="d-flex">
+            <button 
+                v-if="updateType=== 'Add'"
+                type="button"
+                class="btn-green"
+                @click="update"
+              >
+                {{updateType}} User
             </button>
-          </div>
-          <div v-else-if="updateType=== 'Edit'">
             <button
+              v-else-if="updateType=== 'Edit'"
               type="button"
               class="btn-green"
               @click="edit"
             >
               {{updateType}} User
             </button>
+              <button
+                type="button"
+                class="btn-green ml-4"
+                @click="close"
+                aria-label="Close"
+              >
+                Close
+              </button>
           </div>
-          <button
-            type="button"
-            class="btn-green"
-            @click="close"
-            aria-label="Close modal"
-          >
-            Close Modal
-          </button>
         </footer>
       </div>
     </div>
@@ -110,12 +110,13 @@ export default {
   }
 
   .modal {
-    /* background: #FFFFFF; */
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
     display: flex;
     flex-direction: column;
     width: 50%;
+    background-color: transparent;
+    background-color: black;
   }
 
   .modal-header,
@@ -158,7 +159,7 @@ export default {
   .btn-green {
     color: white;
     background: #4AAE9B;
-    /* border: 1px solid #4AAE9B; */
+    border: 1px solid #4AAE9B;
     border-radius: 2px;
   }
 </style>
