@@ -58,7 +58,8 @@ const store = new Vuex.Store({
           user: updUser.userToAdd
         })
         .then(response => {
-          commit('setUsers', response)
+          console.log(`Response Is ${response}`)
+          commit('setUser', response)
         })
         .catch(error => {
           console.log(error)
@@ -72,7 +73,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
-      state.user = user
+      state.user = user.data
     },
     setUsers(state, response) {
       state.users = response.data

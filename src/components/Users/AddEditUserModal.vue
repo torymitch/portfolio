@@ -36,6 +36,21 @@
             <v-text-field label="Last Name" variant="outlined" v-model="updUser.last_name"></v-text-field>
           </v-row>
          </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="User Name" variant="outlined" v-model="updUser.user_name"></v-text-field>
+          </v-row>
+         </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="Email" variant="outlined" v-model="updUser.email_address"></v-text-field>
+          </v-row>
+         </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="Phone No" variant="outlined" v-model="updUser.phone_number"></v-text-field>
+          </v-row>
+         </v-col>
         </section>
 
         <footer class="modal-footer">

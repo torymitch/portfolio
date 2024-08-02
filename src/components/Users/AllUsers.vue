@@ -71,12 +71,16 @@ export default {
         async createUser(updUser) {
             this.closeModal()
             this.userToAdd = updUser
-            this.userToAdd.email_address = 'kbryant'
-            this.userToAdd.user_name = 'test'
-            this.userToAdd.phone_number = '655-444-3222'
             console.log(`Users Are ${JSON.stringify(updUser)}`)
-            await this.addUser({ userToAdd: this.userToAdd })
-            await this.fetchUsers()
+            await this.addUser({ 
+                userToAdd: this.userToAdd 
+            })
+            .then(newUser => {
+                console.log(`New User was created ${newUser.data}`)
+            })
+            .then(
+               await this.fetchUsers()
+            )
         },
         editUser(updUser) {
             this.closeModal()
