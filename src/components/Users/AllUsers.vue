@@ -45,6 +45,7 @@ export default {
             actions: [],
             showUserModal: false,
             updateType: 'Add',
+            userToAdd: {},
         }
     },
     computed: {
@@ -64,13 +65,22 @@ export default {
             this.showUserModal = false;
         },
         showAddEditUser() {
+            this.closeModal()
             this.showUserModal = true;
         },
-        createUser(user) {
-            this.addUser(user)
+        async createUser(updUser) {
+            this.closeModal()
+            this.userToAdd = updUser
+            this.userToAdd.email_address = 'kbryant'
+            this.userToAdd.user_name = 'test'
+            this.userToAdd.phone_number = '655-444-3222'
+            console.log(`Users Are ${JSON.stringify(updUser)}`)
+            await this.addUser({ userToAdd: this.userToAdd })
+            await this.fetchUsers()
         },
-        editUser(user) {
-            this.updateUser(user)
+        editUser(updUser) {
+            this.closeModal()
+            this.updateUser(updUser)
         },
     },
 }
