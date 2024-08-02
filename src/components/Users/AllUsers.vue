@@ -10,6 +10,33 @@
             :item-key="users.userName"
             next-icon
         >
+            <template v-slot:item="row">
+            <tr>
+                <td>{{row.item.firstName}}</td>
+                <td>{{row.item.lastName}}</td>
+                <td>{{row.item.userName}}</td>
+                <td>{{row.item.phone}}</td> 
+                <td>
+                    <v-btn
+                        class="me-2"
+                        dark
+                        small
+                        icon="mdi-pencil"
+                        @click="editUser(row.item)"
+                    >
+                        Edit
+                    </v-btn>
+                    <v-btn
+                        class="me-2"
+                        dark
+                        small
+                        @click="deleteUser(row.item)"
+                    >
+                        mdi-delete
+                    </v-btn> 
+                </td>
+            </tr>
+            </template>
         </v-data-table>
         <add-edit-user-modal v-if="showUserModal"
             @closeModal="closeModal"
@@ -50,17 +77,17 @@ export default {
     },
     computed: {
         ...mapState(['users']),
-        ...mapActions(['addUser', 'fetchUser', 'fetchUsers', 'updateUser']),
         ...mapMutations(['setUser']),
     },
     async created() {
-        await this.fetchUsers
+        await this.fetchUsers()
         // await this.fetchUser
     },
     async mounted() {
         this.loaded = true
     },
     methods: {
+        ...mapActions(['addUser', 'fetchUser', 'fetchUsers', 'updateUser', 'deleteUser']),
         closeModal() {
             this.showUserModal = false;
         },
@@ -68,23 +95,18 @@ export default {
             this.closeModal()
             this.showUserModal = true;
         },
-        async createUser(updUser) {
+        async createUser(user) {
             this.closeModal()
-            this.userToAdd = updUser
-            console.log(`Users Are ${JSON.stringify(updUser)}`)
-            await this.addUser({ 
-                userToAdd: this.userToAdd 
-            })
-            .then(newUser => {
-                console.log(`New User was created ${newUser.data}`)
-            })
-            .then(
-               await this.fetchUsers()
-            )
+            await this.addUser(user)
+            .then(await this.fetchUsers())
         },
-        editUser(updUser) {
+        editUser(user) {
             this.closeModal()
-            this.updateUser(updUser)
+            this.updateUser(user)
+        },
+        async deleteAUser(user) {
+            await this.deleteUser(user)
+            .then(await this.fetchUsers())
         },
     },
 }

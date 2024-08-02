@@ -49,13 +49,26 @@ const store = new Vuex.Store({
     //     })
     // },
 
-    async addUser({ commit, state }, updUser) {
-      let incUser = updUser.userToAdd;
-      let userParams = `/addUser?first_name=${incUser.first_name}&last_name=${incUser.last_name}&user_name=${incUser.user_name}&email_address=${incUser.email_address}&phone_number=${incUser.phone_number}`
+    async addUser({ commit, state }, user) {
+      let userParams = `/addUser?first_name=${user.first_name}&last_name=${user.last_name}&user_name=${user.user_name}&email_address=${user.email_address}&phone_number=${user.phone_number}`
       axios
         // .post(`${state.baseURL}addUser`, updUser.userToAdd)
         .post(`${state.baseURL}${userParams}`, {
-          user: updUser.userToAdd
+          user: user
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          commit('setUser', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async deleteUser({ commit, state }, user) {
+      axios
+        .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
+          user: user
         })
         .then(response => {
           console.log(`Response Is ${response}`)
