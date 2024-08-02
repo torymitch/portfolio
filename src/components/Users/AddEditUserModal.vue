@@ -28,12 +28,27 @@
         >
          <v-col>
           <v-row>
-            <v-text-field label="First Name" variant="outlined" v-model="updUser.firstName"></v-text-field>
+            <v-text-field label="First Name" variant="outlined" v-model="updUser.first_name"></v-text-field>
           </v-row>
          </v-col>
          <v-col>
           <v-row>
-            <v-text-field label="Last Name" variant="outlined" v-model="updUser.lastName"></v-text-field>
+            <v-text-field label="Last Name" variant="outlined" v-model="updUser.last_name"></v-text-field>
+          </v-row>
+         </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="User Name" variant="outlined" v-model="updUser.user_name"></v-text-field>
+          </v-row>
+         </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="Email" variant="outlined" v-model="updUser.email_address"></v-text-field>
+          </v-row>
+         </v-col>
+         <v-col>
+          <v-row>
+            <v-text-field label="Phone No" variant="outlined" v-model="updUser.phone_number"></v-text-field>
           </v-row>
          </v-col>
         </section>
@@ -44,7 +59,7 @@
                 v-if="updateType=== 'Add'"
                 type="button"
                 class="btn-green"
-                @click="update"
+                @click="createUser"
               >
                 {{updateType}} User
             </button>
@@ -87,6 +102,9 @@ export default {
       close() {
         this.$emit('closeModal')
       },
+      createUser() {
+        this.$emit('createUser', this.updUser);
+      },  
       update() {
         this.$emit('createUser')
       },
