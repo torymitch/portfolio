@@ -22,7 +22,7 @@
                         dark
                         small
                         icon="mdi-pencil"
-                        @click="editUser(row.item)"
+                        @click="showAddEditUser(row.item)"
                     >
                         Edit
                     </v-btn>
@@ -42,6 +42,7 @@
             @closeModal="closeModal"
             @createUser="createUser"
             @editUser="editUser"
+            :user="user"
             :updateType="updateType"
         />
     </v-container>
@@ -72,7 +73,7 @@ export default {
             actions: [],
             showUserModal: false,
             updateType: 'Add',
-            userToAdd: {},
+            user: {},
         }
     },
     computed: {
@@ -91,9 +92,10 @@ export default {
         closeModal() {
             this.showUserModal = false;
         },
-        showAddEditUser() {
+        showAddEditUser(user) {
             this.closeModal()
-            this.showUserModal = true;
+            this.user = user 
+            this.showUserModal = true
         },
         async createUser(user) {
             this.closeModal()
@@ -103,6 +105,7 @@ export default {
         editUser(user) {
             this.closeModal()
             this.updateUser(user)
+            this.user = {}
         },
         async deleteAUser(user) {
             await this.deleteUser(user)

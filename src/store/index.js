@@ -65,6 +65,21 @@ const store = new Vuex.Store({
         })
     },
 
+    async updateUser({ commit, state }, user) {
+      let userParams = `/updateUser?id=${user.id}&first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
+      axios
+        .put(`${state.baseURL}${userParams}`, {
+          user: user
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          commit('setUser', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     async deleteUser({ commit, state }, user) {
       axios
         .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
