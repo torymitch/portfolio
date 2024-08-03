@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-backdrop">
+  <div v-if="loaded" class="modal-backdrop">
     <div class="modal"
       role="dialog"
       aria-labelledby="modalTitle"
@@ -28,48 +28,48 @@
         >
          <v-col>
           <v-row>
-            <v-text-field label="First Name" variant="outlined" v-model="updUser.first_name"></v-text-field>
+            <v-text-field label="First Name" variant="outlined" v-model="updUser.firstName"></v-text-field>
           </v-row>
          </v-col>
          <v-col>
           <v-row>
-            <v-text-field label="Last Name" variant="outlined" v-model="updUser.last_name"></v-text-field>
+            <v-text-field label="Last Name" variant="outlined" v-model="updUser.lastName"></v-text-field>
           </v-row>
          </v-col>
          <v-col>
           <v-row>
-            <v-text-field label="User Name" variant="outlined" v-model="updUser.user_name"></v-text-field>
+            <v-text-field label="User Name" variant="outlined" v-model="updUser.userName"></v-text-field>
           </v-row>
          </v-col>
          <v-col>
           <v-row>
-            <v-text-field label="Email" variant="outlined" v-model="updUser.email_address"></v-text-field>
+            <v-text-field label="Email" variant="outlined" v-model="updUser.emailAddress"></v-text-field>
           </v-row>
          </v-col>
          <v-col>
           <v-row>
-            <v-text-field label="Phone No" variant="outlined" v-model="updUser.phone_number"></v-text-field>
+            <v-text-field label="Phone No" variant="outlined" v-model="updUser.phoneNumber"></v-text-field>
           </v-row>
          </v-col>
         </section>
 
         <footer class="modal-footer">
           <div class="d-flex">
-            <button 
-                v-if="updateType=== 'Add'"
+            <button
+                v-if="user.id === undefined" 
                 type="button"
                 class="btn-green"
                 @click="createUser"
               >
-                {{updateType}} User
+                Add User
             </button>
             <button
-              v-else-if="updateType=== 'Edit'"
+              v-else
               type="button"
               class="btn-green"
-              @click="edit"
+              @click="editUser"
             >
-              {{updateType}} User
+              Edit User
             </button>
               <button
                 type="button"
@@ -90,11 +90,16 @@
 export default {
     props: {
       updateType: String,
-      user: Object,
+      user: Object
+    },
+    created() {
+      this.updUser = this.user
+      this.loaded = true
     },
     data() {
         return {
           updUser: {},
+          loaded: false,
         }
     },
     emits: ['closeModal', 'createUser', 'editUser'],
@@ -105,11 +110,8 @@ export default {
       createUser() {
         this.$emit('createUser', this.updUser);
       },  
-      update() {
-        this.$emit('createUser')
-      },
-      edit() {
-        this.$emit('editUser')
+      editUser() {
+        this.$emit('editUser', this.updUser)
       }
     }
 }
