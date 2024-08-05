@@ -30,7 +30,7 @@
           <v-row>
             <v-text-field label="First Name" variant="outlined" v-model="updUser.firstName"></v-text-field>
           </v-row>
-         </v-col>
+        </v-col>
          <v-col>
           <v-row>
             <v-text-field label="Last Name" variant="outlined" v-model="updUser.lastName"></v-text-field>
@@ -92,8 +92,10 @@ export default {
       updateType: String,
       user: Object
     },
-    created() {
-      this.updUser = this.user
+    mounted() {
+      if (this.user?.id) {
+        this.updUser = {...this.user}
+      }
       this.loaded = true
     },
     data() {

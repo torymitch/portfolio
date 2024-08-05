@@ -15,7 +15,8 @@
                 <td>{{row.item.firstName}}</td>
                 <td>{{row.item.lastName}}</td>
                 <td>{{row.item.userName}}</td>
-                <td>{{row.item.phone}}</td> 
+                <td>{{row.item.emailAddress}}</td>
+                <td>{{row.item.phoneNumber}}</td> 
                 <td>
                     <v-btn
                         class="me-2"
@@ -30,9 +31,9 @@
                         class="me-2"
                         dark
                         small
-                        @click="deleteUser(row.item)"
+                        @click="removeUser(row.item)"
                     >
-                        mdi-delete
+                        Delete
                     </v-btn> 
                 </td>
             </tr>
@@ -66,6 +67,7 @@ export default {
                 { title: 'First Name', value: 'firstName', sortable: true, key: 'firstName' },
                 { title: 'Last Name', value: 'lastName', sortable: true },
                 { title: 'User Name', value: 'userName', sortable: true },
+                { title: 'Email', value: 'emailAddress', sortable: true },
                 { title: 'Phone', value: 'phone' },
                 { title: 'Actions', value: 'actions' },
             ],
@@ -82,7 +84,6 @@ export default {
     },
     async created() {
         await this.fetchUsers()
-        // await this.fetchUser
     },
     async mounted() {
         this.loaded = true
@@ -100,16 +101,14 @@ export default {
         async createUser(user) {
             this.closeModal()
             await this.addUser(user)
-            .then(await this.fetchUsers())
         },
-        editUser(user) {
+        async editUser(user) {
             this.closeModal()
             this.updateUser(user)
             this.user = {}
         },
-        async deleteAUser(user) {
+        async removeUser(user) {
             await this.deleteUser(user)
-            .then(await this.fetchUsers())
         },
     },
 }
