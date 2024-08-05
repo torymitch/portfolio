@@ -37,9 +37,8 @@ const store = new Vuex.Store({
     },
     // async addUser({ commit, state }, updUser) {
     //   axios
-    //     // .post(`${state.baseURL}addUser`, updUser.userToAdd)
-    //     .post(`${state.baseURL}addUser`, {
-    //       user: updUser.userToAdd
+    //     .post(`${state.baseURL}/addUser`, {
+    //       user: updUser
     //     })
     //     .then(response => {
     //       commit('setUsers', response)
@@ -49,23 +48,22 @@ const store = new Vuex.Store({
     //     })
     // },
 
-    async addUser({ commit, state }, user) {
-      let userParams = `/addUser?first_name=${user.first_name}&last_name=${user.last_name}&user_name=${user.user_name}&email_address=${user.email_address}&phone_number=${user.phone_number}`
+    async addUser({ state, dispatch }, user) {
+      let userParams = `/addUser?first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
-        // .post(`${state.baseURL}addUser`, updUser.userToAdd)
         .post(`${state.baseURL}${userParams}`, {
           user: user
         })
         .then(response => {
           console.log(`Response Is ${response}`)
-          commit('setUser', response)
+          dispatch('fetchUsers')
         })
         .catch(error => {
           console.log(error)
         })
     },
 
-    async updateUser({ commit, state }, user) {
+    async updateUser({ state, dispatch }, user) {
       let userParams = `/updateUser?id=${user.id}&first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
         .put(`${state.baseURL}${userParams}`, {
@@ -73,21 +71,21 @@ const store = new Vuex.Store({
         })
         .then(response => {
           console.log(`Response Is ${response}`)
-          commit('setUser', response)
+          dispatch('fetchUsers')
         })
         .catch(error => {
           console.log(error)
         })
     },
 
-    async deleteUser({ commit, state }, user) {
+    async deleteUser({ state, dispatch }, user) {
       axios
         .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
           user: user
         })
         .then(response => {
           console.log(`Response Is ${response}`)
-          commit('setUser', response)
+          dispatch('fetchUsers')
         })
         .catch(error => {
           console.log(error)
