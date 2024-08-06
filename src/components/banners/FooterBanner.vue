@@ -1,0 +1,42 @@
+<template>
+  <!--  -->
+    <!-- <v-footer class="bg-grey-lighten-1"> -->
+        <!-- <v-footer> -->
+      <!-- <v-row justify="center" no-gutters>
+        <v-btn
+          v-for="link in links"
+          :key="link"
+          class="mx-2"
+          color="white"
+          rounded="xl"
+          variant="text"
+        >
+          {{ link }}
+        </v-btn>
+        <v-col class="text-center mt-4" cols="12">
+          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        </v-col>
+      </v-row> -->
+    <!-- </v-footer> -->
+    <v-app>
+    <v-container>
+      <v-footer></v-footer>
+    </v-container>
+  </v-app>
+</template>
+  
+<script>
+  export default {
+    data: () => ({
+      icons: [
+        'Home',
+        'About Us',
+        'Team',
+        'Services',
+        'Blog',
+        'Contact Us',
+      ],
+    }),
+  }
+</script>
+  
