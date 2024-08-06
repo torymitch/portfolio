@@ -19,10 +19,8 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn 
-          append-icon="mdi-home-export-outline"
-        >
-
+        <v-btn icon>
+          <v-icon @click="navHome">mdi-home-export-outline</v-icon>
         </v-btn>
         <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
@@ -39,3 +37,13 @@
     </v-layout>
   </v-card>
 </template>
+
+<script>
+export default {
+    methods: {
+      navHome() {
+        this.$router.push('/')
+      },
+    }
+}
+</script>
