@@ -11,17 +11,30 @@
           ></v-img>
         </template>
 
-        <template v-slot:prepend>
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        </template>
+        <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn icon="mdi-menu" v-bind="props"></v-btn>
+            </template>
+
+            <v-list density="compact">
+              <v-list-item
+                v-for="(item, i) in navItems"
+                :key="i"
+              >
+                <v-btn @click="navigate(item.route)">
+                  <template v-slot:prepend>
+                    <v-icon :icon="item.icon"></v-icon>
+                  </template>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-btn>
+              </v-list-item>
+            </v-list>
+          </v-menu>
 
         <v-app-bar-title>Take Me To The Moon</v-app-bar-title>
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
-          <v-icon @click="navHome">mdi-home-export-outline</v-icon>
-        </v-btn>
         <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
@@ -40,7 +53,21 @@
 
 <script>
 export default {
+    data() {
+      return {
+        navItems: [
+          { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
+          { title: 'Portfolio', icon: 'mdi-clock', route: '/portfolioHome' },
+          { title: 'Watchlist', icon: 'mdi-clock', route: '/watchList' },
+          { title: 'Users', icon: 'mdi-menu', route: '/users' },
+          { title: 'About', icon: 'mdi-menu', route: '/about' },
+        ],
+      }
+    },
     methods: {
+      navigate(route) {
+        this.$router.push(route)
+      },
       navHome() {
         this.$router.push('/')
       },
