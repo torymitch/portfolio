@@ -2,7 +2,7 @@
     <v-container v-if="loaded" class="table" >
         <v-btn text="Add" @click="showAddEditUser"></v-btn>
         <v-data-table 
-            class="elevation-1"
+            class="elevation-1 overflow-y-auto"
             :headers="headers"
             :items="users"
             :items-per-page="usersPerPage"
@@ -19,21 +19,20 @@
                 <td>{{row.item.phoneNumber}}</td> 
                 <td>
                     <v-btn
-                        class="me-2"
+                        class="me-2 action-btn"
                         dark
                         small
-                        icon="mdi-pencil"
-                        @click="showAddEditUser(row.item)"
+                        @click="showEditUser(row.item)"
                     >
-                        Edit
+                        <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn
-                        class="me-2"
+                        class="me-2 action-btn"
                         dark
                         small
-                        @click="removeUser(row.item)"
+                        @click="confirmDelete(row.item)"
                     >
-                        Delete
+                    <v-icon>mdi-trash-can</v-icon>
                     </v-btn> 
                 </td>
             </tr>
@@ -46,6 +45,11 @@
             :user="user"
             :updateType="updateType"
         />
+        <confirm-delete v-if="showDeleteModal"
+            :message="deleteMsg"
+            @removeUser="removeUser"
+            @closeModal="closeModal"
+        />
     </v-container>
 </template>
 
@@ -53,10 +57,14 @@
 
 import { mapState, mapActions, mapMutations } from 'vuex';
 import AddEditUserModal from './AddEditUserModal.vue';
+import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     components : {
         AddEditUserModal,
+        ConfirmDelete,
     },
 
     data() {
@@ -71,11 +79,13 @@ export default {
                 { title: 'Phone', value: 'phone' },
                 { title: 'Actions', value: 'actions' },
             ],
-            usersPerPage: 5,
+            usersPerPage: 2,
             actions: [],
             showUserModal: false,
+            showDeleteModal: false,
             updateType: 'Add',
             user: {},
+            deleteMsg: 'Are you sure you would like to delete this user?  <p>This action can not be undone!'
         }
     },
     computed: {
@@ -91,31 +101,59 @@ export default {
     methods: {
         ...mapActions(['addUser', 'fetchUser', 'fetchUsers', 'updateUser', 'deleteUser']),
         closeModal() {
-            this.showUserModal = false;
+            this.showUserModal = false
+            this.showDeleteModal = false
+            this.updateType = 'Add'
+            this.user = {}
         },
         showAddEditUser(user) {
-            this.closeModal()
             this.user = user 
             this.showUserModal = true
         },
+        showEditUser(user) {
+            this.updateType = 'Edit'
+            this.showAddEditUser(user)
+        },
         async createUser(user) {
-            this.closeModal()
             await this.addUser(user)
+                .then(
+                    toast('User Created Succesfully', {
+                        autoClose: 1000,
+                    }))
+                .then( this.closeModal() )
         },
         async editUser(user) {
-            this.closeModal()
-            this.updateUser(user)
-            this.user = {}
+            await this.updateUser(user)
+                .then(
+                    toast('User Updated Succesfully', {
+                        autoClose: 1000,
+                    }))
+                .then( this.closeModal() )
         },
-        async removeUser(user) {
-            await this.deleteUser(user)
+        confirmDelete(user) {
+            this.user = user
+            this.showDeleteModal = true
+        },
+        async removeUser() {
+            await this.deleteUser(this.user)
+            .then(
+                    toast('User Deleted Succesfully', {
+                        autoClose: 1000,
+                    }))    
+            .then( this.closeModal() )
         },
     },
 }
 
 </script>
-<style scoped>
+<style lang="scss">
 .table{
     min-width: 100dvw;
+}
+.v-data-table-footer {
+    padding-right: 150px !important;
+}
+.action-btn {
+    border-width: inherit;
 }
 </style>
