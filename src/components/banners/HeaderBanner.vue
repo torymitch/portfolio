@@ -57,9 +57,9 @@ export default {
       return {
         navItems: [
           { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
-          { title: 'Portfolio', icon: 'mdi-clock', route: '/portfolioHome' },
-          { title: 'Watchlist', icon: 'mdi-clock', route: '/watchList' },
-          { title: 'Users', icon: 'mdi-menu', route: '/users' },
+          { title: 'Portfolio', icon: 'mdi-cash', route: '/portfolioHome' },
+          { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
+          { title: 'Users', icon: 'mdi-account', route: '/users' },
           { title: 'About', icon: 'mdi-menu', route: '/about' },
         ],
       }

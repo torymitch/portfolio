@@ -79,7 +79,7 @@ export default {
                 { title: 'Phone', value: 'phone' },
                 { title: 'Actions', value: 'actions' },
             ],
-            usersPerPage: 2,
+            usersPerPage: 5,
             actions: [],
             showUserModal: false,
             showDeleteModal: false,

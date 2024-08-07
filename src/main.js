@@ -20,7 +20,6 @@ const vuetify = createVuetify({
   theme: {
     defaultTheme: 'dark',
   },
-  // iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
   iconfont: 'md' // || 'mdi' || 'fa' || 'fa4'
 })
 
