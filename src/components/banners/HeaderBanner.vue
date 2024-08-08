@@ -79,18 +79,13 @@ export default {
         searchString: ''
       }
     },
-    computed: {
-      ...mapMutations(['setSearchString']),
-    },
     watch: {
       searchString (val) {
-        if (!val) {
-          return
-        }
         this.fetchEntriesDebounced(val)
       }
     },
     methods: {
+      ...mapMutations(['setSearchString']),
       navigate(route) {
         this.$router.push(route)
       },
