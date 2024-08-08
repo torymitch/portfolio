@@ -3,7 +3,7 @@
 
     <WelcomeItem>
       <template #icon>
-        <DocumentationIcon />
+        <v-icon icon="mdi-cash"></v-icon>
       </template>
       <RouterLink to="/portfolioHome">Portfolio</RouterLink>
       Select this link to see your accounts
@@ -11,7 +11,7 @@
 
     <WelcomeItem>
       <template #icon>
-        <ToolingIcon />
+        <v-icon icon="mdi-watch"></v-icon>
       </template>
       <RouterLink to="/watchList">Watch List</RouterLink>
       Select to choose a watch ist to view
@@ -19,15 +19,7 @@
 
     <WelcomeItem>
       <template #icon>
-        <ToolingIcon />
-      </template>
-      <RouterLink to="/addWatchList">Create Watch List</RouterLink>
-      Select to create a new watch list
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <ToolingIcon />
+        <v-icon icon="mdi-account"></v-icon>
       </template>
       <RouterLink to="/users">Users</RouterLink>
       Select to see users in the application
@@ -35,7 +27,7 @@
 
     <WelcomeItem>
       <template #icon>
-        <ToolingIcon />
+        <v-icon icon="mdi-help"></v-icon>
       </template>
       <RouterLink to="/about">About</RouterLink>
       Select to learn details about the application

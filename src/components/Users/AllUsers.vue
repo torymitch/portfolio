@@ -92,7 +92,6 @@ export default {
     },
     computed: {
         ...mapState(['users', 'searchString']),
-        ...mapMutations(['setUser']),
     },
     watch: {
       searchString (val) {
@@ -110,8 +109,14 @@ export default {
     async mounted() {
         this.loaded = true
     },
+    beforeUnmount() {
+      if (this.search !== '') {
+        this.setSearchString('')
+      }
+    },
     methods: {
         ...mapActions(['addUser', 'fetchUser', 'fetchUsers', 'updateUser', 'deleteUser']),
+        ...mapMutations(['setSearchString']),
         closeModal() {
             this.showUserModal = false
             this.showDeleteModal = false
