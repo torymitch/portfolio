@@ -35,9 +35,20 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
+        <v-btn v-if="!showSearch"  @click="displaySearch">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
+        <v-text-field v-else
+          class="search-field"
+          v-model="searchString"
+          placeholder="Search"
+          width="20%"
+          prepend-inner-icon="mdi-database-search-outline"
+          append-inner-icon="mdi-magnify"
+          @click:append-inner="hideSearch"
+          
+        >
+        </v-text-field>
 
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
@@ -52,6 +63,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
     data() {
       return {
@@ -62,6 +75,19 @@ export default {
           { title: 'Users', icon: 'mdi-account', route: '/users' },
           { title: 'About', icon: 'mdi-menu', route: '/about' },
         ],
+        showSearch: false,
+        searchString: ''
+      }
+    },
+    computed: {
+      ...mapMutations(['setSearchString']),
+    },
+    watch: {
+      searchString (val) {
+        if (!val) {
+          return
+        }
+        this.fetchEntriesDebounced(val)
       }
     },
     methods: {
@@ -71,6 +97,24 @@ export default {
       navHome() {
         this.$router.push('/')
       },
+      displaySearch() {
+        this.showSearch = true
+      },
+      hideSearch() {
+        this.showSearch = false
+      },
+      fetchEntriesDebounced(val) {
+        setTimeout(() => {
+          this.setSearchString(val)
+        }, 1000)
+      },
     }
 }
 </script>
+
+<style scoped>
+.v-input.v-input--horizontal.v-input--center-affix.v-input--density-default.v-theme--dark.v-locale--is-ltr.v-text-field.search-field {
+  height: 70px;
+  margin-top: 15px;
+}
+</style>
