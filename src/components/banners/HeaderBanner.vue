@@ -1,7 +1,6 @@
 <template>
     <v-card class="mx-auto" color="grey-lighten-3" max-width="448">
     <v-layout>
-      <!-- image="https://picsum.photos/1920/1080?random" -->
       <v-app-bar
         color="teal-darken-4"
       >

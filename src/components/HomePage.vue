@@ -1,6 +1,5 @@
 <template>
   <main>
-
     <WelcomeItem>
       <template #icon>
         <v-icon icon="mdi-cash"></v-icon>
@@ -37,15 +36,11 @@
 
 <script>
 import WelcomeItem from './WelcomeItem.vue'
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
 
 export default {
 
   components : {
     WelcomeItem,
-    DocumentationIcon,
-    ToolingIcon
   },
   data() {
       return {
