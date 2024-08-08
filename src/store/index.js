@@ -106,10 +106,8 @@ const store = new Vuex.Store({
       state.users = response.data
       !state.userStateUpdate
     },
-    setSearchString(state, payload) {
-      console.log(`Search String ${payload.searchString}`)
-      state.searchString = payload.searchString
-      console.log(state.searchString)
+    setSearchString(state, searchString) {
+      state.searchString = searchString
     }
   }
 })

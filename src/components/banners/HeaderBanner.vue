@@ -73,25 +73,22 @@ export default {
           { title: 'Portfolio', icon: 'mdi-cash', route: '/portfolioHome' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
           { title: 'Users', icon: 'mdi-account', route: '/users' },
-          { title: 'About', icon: 'mdi-menu', route: '/about' },
+          { title: 'About', icon: 'mdi-help', route: '/about' },
         ],
         showSearch: false,
         searchString: ''
       }
     },
-    computed: {
-      ...mapMutations(['setSearchString']),
-    },
     watch: {
       searchString (val) {
-        if (!val) {
-          return
-        }
         this.fetchEntriesDebounced(val)
       }
     },
     methods: {
+      ...mapMutations(['setSearchString']),
       navigate(route) {
+        this.searchString = ''
+        this.hideSearch()
         this.$router.push(route)
       },
       navHome() {
