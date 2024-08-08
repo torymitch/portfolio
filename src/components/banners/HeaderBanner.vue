@@ -18,10 +18,12 @@
 
             <v-list density="compact">
               <v-list-item
+                v-show="!isHidden(item)"
                 v-for="(item, i) in navItems"
                 :key="i"
               >
-                <v-btn @click="navigate(item.route)">
+                <v-btn 
+                  @click="navigate(item.route)">
                   <template v-slot:prepend>
                     <v-icon :icon="item.icon"></v-icon>
                   </template>
@@ -90,6 +92,9 @@ export default {
         this.searchString = ''
         this.hideSearch()
         this.$router.push(route)
+      },
+      isHidden (route) {
+        return this.$router.currentRoute.value.fullPath === route.route
       },
       navHome() {
         this.$router.push('/')
