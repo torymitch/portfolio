@@ -8,6 +8,7 @@
             :items-per-page="usersPerPage"
             density="compact"
             :item-key="users.userName"
+            :search="search"
             next-icon
         >
             <template v-slot:item="row">
@@ -85,12 +86,23 @@ export default {
             showDeleteModal: false,
             updateType: 'Add',
             user: {},
-            deleteMsg: 'Are you sure you would like to delete this user?  <p>This action can not be undone!'
+            deleteMsg: 'Are you sure you would like to delete this user?  <p>This action can not be undone!',
+            search: ''
         }
     },
     computed: {
-        ...mapState(['users']),
+        ...mapState(['users', 'searchString']),
         ...mapMutations(['setUser']),
+    },
+    watch: {
+      searchString (val) {
+        if (!val) {
+          this.search = ''
+          return
+        }
+        this.search = val
+        
+      }
     },
     async created() {
         await this.fetchUsers()
