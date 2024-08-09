@@ -5,9 +5,9 @@ const store = new Vuex.Store({
   state() {
     return {
       baseURL: 'http://localhost:8080',
-      userStateUpdate: false,
       users: [],
       user: [],
+      positions: [],
       searchString: '',
     }
   },
@@ -16,6 +16,8 @@ const store = new Vuex.Store({
       await axios.get('http://localhost:5173/api/systemInfo')
       this.commit('updateBuildDate', state, new Date())
     },
+
+    //Users 
     async fetchUser({commit, state}) {
       axios
         .get(state.baseURL + 'getUser/1')
@@ -92,6 +94,32 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
+
+    // Positions
+    async fetchPositions({commit, state}) {
+      axios
+        .get(state.baseURL + '/getPositions')
+        .then(response => {
+          commit('setPositions', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    async addPosition({ state, dispatch }, position) {
+      let positionParams = `/addPosition?name=${position.name}&symbol=${position.symbol}`
+      axios
+        .post(`${state.baseURL}${positionParams}`, {
+          position: position
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          dispatch('fetchPositions')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   getters: {
     // async getUsers(state) {
@@ -104,7 +132,9 @@ const store = new Vuex.Store({
     },
     setUsers(state, response) {
       state.users = response.data
-      !state.userStateUpdate
+    },
+    setPositions(state, response) {
+      state.positions = response.data
     },
     setSearchString(state, searchString) {
       state.searchString = searchString
