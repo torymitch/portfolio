@@ -107,9 +107,41 @@ const store = new Vuex.Store({
         })
     },
     async addPosition({ state, dispatch }, position) {
-      let positionParams = `/addPosition?name=${position.name}&symbol=${position.symbol}`
+      // let positionParams = `/addPosition?name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=${position.total}&cost=${position.cost}`
+      // let positionParams = `/addPosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=0f&total=0f&cost=0f`
+      let positionParams = `/addPosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=0f&cost=0f`
+      
       axios
         .post(`${state.baseURL}${positionParams}`, {
+          position: position
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          dispatch('fetchPositions')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    async updatePosition({ state, dispatch }, position) {
+      // let positionParams = `/updatePosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=${position.total}&cost=${position.cost}`
+      let positionParams = `/updatePosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=0.00&cost=0.00`
+      axios
+        .put(`${state.baseURL}${positionParams}`, {
+          position: position
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          dispatch('fetchPositions')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async deletePosition({ state, dispatch }, position) {
+      axios
+        .delete(`${state.baseURL}/deletePosition?id=${position.id}`, {
           position: position
         })
         .then(response => {

@@ -36,40 +36,31 @@
               <v-text-field label="Symbol" variant="outlined" v-model="updPosition.symbol"></v-text-field>
             </v-row>
            </v-col>
-           <!-- <v-col>
-            <v-row>
-              <v-text-field label="User Name" variant="outlined" v-model="updPosition.userName"></v-text-field>
-            </v-row>
-           </v-col>
            <v-col>
             <v-row>
-              <v-text-field label="Email" variant="outlined" v-model="updPosition.emailAddress"></v-text-field>
+              <v-text-field label="Price" variant="outlined" v-model="updPosition.price"></v-text-field>
             </v-row>
            </v-col>
-           <v-col>
-            <v-row>
-              <v-text-field label="Phone No" variant="outlined" v-model="updPosition.phoneNumber"></v-text-field>
-            </v-row>
-           </v-col> -->
           </section>
   
           <footer class="modal-footer">
             <div class="d-flex">
               <button
+                v-if="position.id === undefined"
                   type="button"
                   class="btn-green"
                   @click="createPosition"
                 >
                   Add Position
               </button>
-              <!-- <button
+              <button
                 v-else
                 type="button"
                 class="btn-green"
-                @click="editUser"
+                @click="editPosition"
               >
-                Edit User
-              </button> -->
+                Edit Position
+              </button>
                 <button
                   type="button"
                   class="btn-green ml-4"
@@ -89,11 +80,12 @@
   export default {
       props: {
         header: String,
+        position: Object,
       },
       mounted() {
-        // if (this.user?.id) {
-        //   this.updUser = {...this.user}
-        // }
+        if (this.position?.id) {
+          this.updPosition = {...this.position}
+        }
         this.loaded = true
       },
       data() {

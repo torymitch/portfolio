@@ -10,7 +10,7 @@
           id="modalTitle"
         >
           <slot name="header">
-            Delete User
+            Delete {{ entity  }}
           </slot>
           <button
             type="button"
@@ -33,7 +33,7 @@
                 class="btn-green"
                 @click="isConfirmed"
               >
-                Delete User
+                Delete
             </button>
               <button
                 type="button"
@@ -57,6 +57,10 @@ export default {
             type: String,
             required: true
         },
+        entity: {
+            type: String,
+            required: true
+        }
     },
 
     created() {
@@ -70,12 +74,20 @@ export default {
         }
     },
 
-    emits: ['removeUser', 'closeModal'],
+    emits: ['removeUser', 'removePosition', 'closeModal'],
 
     methods: {
-        isConfirmed() {
-            this.isActive = false
-            this.$emit('removeUser')
+      
+      isConfirmed() {
+          this.isActive = false
+          switch (this.entity) {
+            case 'User':
+              this.$emit('removeUser')
+              break
+            case 'Position':
+              this.$emit('removePosition')
+              break
+          }
         },
         cancelDelete() {
           this.$emit('closeModal')
