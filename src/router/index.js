@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../components/HomePage.vue'
-import Positions from '../components/Portfolio/AllPositions.vue'
+import Accounts from '../components/Account/AllAccounts.vue'
+import Positions from '../components/Positions/AllPositions.vue'
 import WatchList from '../components/Watchlist/WatchList.vue'
 import AddWatchList from '../components/Watchlist/AddWatchList.vue'
 import AboutView from '../components/AboutView.vue'
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/home',
       name: 'homePage',
       component: HomePage
+    },
+    {
+      path: '/accounts',
+      name: 'accounts',
+      component: Accounts
     },
     {
       path: '/about',

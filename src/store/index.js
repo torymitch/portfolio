@@ -8,6 +8,7 @@ const store = new Vuex.Store({
       users: [],
       user: [],
       positions: [],
+      accounts: [],
       searchString: '',
     }
   },
@@ -57,10 +58,7 @@ const store = new Vuex.Store({
         .post(`${state.baseURL}${userParams}`, {
           user: user
         })
-        .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchUsers')
-        })
+        .then( dispatch('fetchUsers') )
         .catch(error => {
           console.log(error)
         })
@@ -86,10 +84,7 @@ const store = new Vuex.Store({
         .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
           user: user
         })
-        .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchUsers')
-        })
+        .then( dispatch('fetchUsers') )
         .catch(error => {
           console.log(error)
         })
@@ -152,6 +147,30 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
+
+    // Accounts
+    async fetchAccounts({commit, state}) {
+      axios
+        .get(state.baseURL + '/getAccounts')
+        .then(response => {
+          commit('setAccounts', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    async addAccount({ state, dispatch }, account) {
+      let accountParams = `/addAccount?name=${account.name}&number=${account.number}`
+      
+      axios
+        .post(`${state.baseURL}${accountParams}`, {
+          account: account
+        })
+        .then( dispatch('fetchAccounts') )
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   getters: {
     // async getUsers(state) {
@@ -167,6 +186,9 @@ const store = new Vuex.Store({
     },
     setPositions(state, response) {
       state.positions = response.data
+    },
+    setAccounts(state, response) {
+      state.accounts = response.data
     },
     setSearchString(state, searchString) {
       state.searchString = searchString

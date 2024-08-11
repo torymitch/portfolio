@@ -4,8 +4,15 @@
       <template #icon>
         <v-icon icon="mdi-cash"></v-icon>
       </template>
-      <RouterLink to="/positions">Portfolio</RouterLink>
+      <RouterLink to="/accounts">Accounts</RouterLink>
       Select this link to see your accounts
+    </WelcomeItem>
+    <WelcomeItem>
+      <template #icon>
+        <v-icon icon="mdi-cash"></v-icon>
+      </template>
+      <RouterLink to="/positions">Positions</RouterLink>
+      Select this link to see your positions
     </WelcomeItem>
 
     <WelcomeItem>
@@ -46,6 +53,7 @@ export default {
       return {
         navItems: [
           { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
+          { title: 'Account', icon: 'mdi-home-export-outline', route: '/account' },
           { title: 'Portfolio', icon: 'mdi-cash', route: '/positions' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
           { title: 'Users', icon: 'mdi-account', route: '/users' },
