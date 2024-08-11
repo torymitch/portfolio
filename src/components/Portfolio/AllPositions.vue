@@ -16,8 +16,8 @@
             <tr>
                 <td>{{row.item.name}}</td>
                 <td>{{row.item.symbol}}</td>
-                <td>{{row.item.shares}}</td>
                 <td>{{row.item.price}}</td>
+                <td>{{row.item.shares}}</td>
                 <td>{{row.item.total}}</td> 
                 <td>{{row.item.cost}}</td>
                 <td>
@@ -25,7 +25,7 @@
                         class="me-2 action-btn"
                         dark
                         small
-                        @click="showEditUser(row.item)"
+                        @click="showEditPosition(row.item)"
                     >
                         <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -43,8 +43,8 @@
         </v-data-table>
         <add-edit-portfolio-modal v-if="showPortfolioModal"
             @closeModal="closeModal"
-            @createUser="createPosition"
-            @editUser="editPosition"
+            @createUser="createPortfolio"
+            @editUser="editPortfolio"
             header="Add Portfolio"
         />
         <add-edit-position-modal v-if="showPositionModal"
@@ -52,10 +52,12 @@
             @createPosition="createPosition"
             @editPosition="editPosition"
             header="Add Position"
+            :position="position"
         />
         <confirm-delete v-if="showDeleteModal"
             :message="deleteMsg"
-            @removeUser="removeUser"
+            entity="Position"
+            @removePosition="removePosition"
             @closeModal="closeModal"
         />
     </v-container>
@@ -84,8 +86,8 @@ export default {
             headers: [
                 { title: 'Name', value: 'name', sortable: true, key: 'name' },
                 { title: 'Symbol', value: 'symbol', sortable: true },
-                { title: 'Shares', value: 'shares', sortable: true },
                 { title: 'Price', value: 'price', sortable: true },
+                { title: 'Shares', value: 'shares', sortable: true },
                 { title: 'Total', value: 'total' },
                 { title: 'Cost', value: 'cost' },
                 { title: 'Actions', value: 'actions' },
@@ -135,17 +137,13 @@ export default {
             this.updateType = 'Add'
             this.user = {}
         },
-        showAddEditPortfolio() {
-            // this.portfolio = portfolio
-            this.showPortfolioModal = true
-        },
-        showAddEditPosition() {
-            // this.position = position 
+        showAddEditPosition(position) {
+            this.position = position 
             this.showPositionModal = true
         },
-        showEditUser(user) {
+        showEditPosition(position) {
             this.updateType = 'Edit'
-            this.showAddEditUser(user)
+            this.showAddEditPosition(position)
         },
         async createPosition(position) {
             await this.addPosition(position)
@@ -156,7 +154,7 @@ export default {
                 .then( this.closeModal() )
         },
         async editPosition(position) {
-            await this.updateUser(position)
+            await this.updatePosition(position)
                 .then(
                     toast('Position Updated Succesfully', {
                         autoClose: 1000,

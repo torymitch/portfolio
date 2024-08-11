@@ -48,6 +48,7 @@
         />
         <confirm-delete v-if="showDeleteModal"
             :message="deleteMsg"
+            entity="User"
             @removeUser="removeUser"
             @closeModal="closeModal"
         />
