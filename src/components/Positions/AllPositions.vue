@@ -1,6 +1,5 @@
 <template>
     <v-container v-if="loaded" class="table" >
-        <v-btn text="Add Portfolio" @click="showAddEditPortfolio"></v-btn>
         <v-btn text="Add Position" @click="showAddEditPosition"></v-btn>
         <v-data-table 
             class="elevation-1 overflow-y-auto"
@@ -41,12 +40,6 @@
             </tr>
             </template>
         </v-data-table>
-        <add-edit-portfolio-modal v-if="showPortfolioModal"
-            @closeModal="closeModal"
-            @createUser="createPortfolio"
-            @editUser="editPortfolio"
-            header="Add Portfolio"
-        />
         <add-edit-position-modal v-if="showPositionModal"
             @closeModal="closeModal"
             @createPosition="createPosition"
@@ -66,7 +59,6 @@
 <script>
 
 import { mapState, mapActions, mapMutations } from 'vuex';
-import AddEditPortfolioModal from './AddEditPortfolioModal.vue';
 import AddEditPositionModal from './AddEditPositionModal.vue';
 import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
 import { toast } from 'vue3-toastify';
@@ -74,7 +66,6 @@ import 'vue3-toastify/dist/index.css';
 
 export default {
     components : {
-        AddEditPortfolioModal,
         AddEditPositionModal,
         ConfirmDelete,
     },
