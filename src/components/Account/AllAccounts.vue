@@ -15,12 +15,14 @@
             <tr>
                 <td>{{row.item.name}}</td>
                 <td>{{row.item.number}}</td>
+                <!-- <td>{{ row.item.user }}</td> -->
+                <td>{{ getUserFullName(row.item.userId) }}</td>
                 <td>
                     <v-btn
                         class="me-2 action-btn"
                         dark
                         small
-                        @click="showEditUser(row.item)"
+                        @click="showEditAccount(row.item)"
                     >
                         <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -42,10 +44,11 @@
             @editAccount="editAccount"
             :account="account"
             :updateType="updateType"
+            modalTitle="Account"
         />
         <confirm-delete v-if="showDeleteModal"
             :message="deleteMsg"
-            entity="User"
+            entity="Account"
             @removeAccount="removeAccount"
             @closeModal="closeModal"
         />
@@ -73,6 +76,7 @@ export default {
             headers: [
                 { title: 'Name', value: 'name', sortable: true, key: 'name' },
                 { title: 'Account No', value: 'number', sortable: true },
+                { title: 'Owner', value: 'user_id', sortable: true },
                 { title: 'Actions', value: 'actions' },
             ],
             accountsPerPage: 5,
@@ -86,7 +90,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['accounts', 'searchString']),
+        ...mapState(['accounts', 'users', 'searchString']),
     },
     watch: {
       searchString (val) {
@@ -100,6 +104,7 @@ export default {
     },
     async created() {
         await this.fetchAccounts()
+        await this.fetchUsers()
     },
     async mounted() {
         this.loaded = true
@@ -110,7 +115,7 @@ export default {
       }
     },
     methods: {
-        ...mapActions(['addAccount', 'fetchAccount', 'fetchAccounts', 'updateAccount', 'deleteAccount']),
+        ...mapActions(['addAccount', 'fetchAccount', 'fetchAccounts', 'fetchUsers', 'updateAccount', 'deleteAccount']),
         ...mapMutations(['setSearchString']),
         closeModal() {
             this.showAccountModal = false
@@ -153,6 +158,14 @@ export default {
                         autoClose: 1000,
                     }))    
             .then( this.closeModal() )
+        },
+        getUserFullName(userId) {
+            let user = this.users.find(user => user.id === userId) 
+            if (user !== undefined) {
+                return `${user.firstName} ${user.lastName}`
+            } else {
+                return ''
+            }
         },
     },
 }

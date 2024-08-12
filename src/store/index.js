@@ -160,7 +160,7 @@ const store = new Vuex.Store({
         })
     },
     async addAccount({ state, dispatch }, account) {
-      let accountParams = `/addAccount?name=${account.name}&number=${account.number}`
+      let accountParams = `/addAccount?name=${account.name}&number=${account.number}&user_id=${account.user_id}`
       
       axios
         .post(`${state.baseURL}${accountParams}`, {
@@ -171,11 +171,42 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
+    async updateAccount({ state, dispatch }, account) {
+      let accountParams = `/updateAccount?id=${account.id}&name=${account.name}&number=${account.number}&user_id=${account.user_id}`
+      axios
+        .put(`${state.baseURL}${accountParams}`, {
+          account: account
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          dispatch('fetchAccounts')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    async deleteAccount({ state, dispatch }, account) {
+      axios
+        .delete(`${state.baseURL}/deleteAccount?id=${account.id}`, {
+          account: account
+        })
+        .then( dispatch('fetchAccounts') )
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   getters: {
-    // async getUsers(state) {
-    //   return state.users
-    // }
+    async getUsersByFullName(state) {
+      let userNames = []
+      state.users.forEach(user => {
+        userNames.push({
+          user_id: user.id,
+          name: `${user.firstName} ${user.lastName}`
+        });
+      })
+      return userNames
+    }
   },
   mutations: {
     setUser(state, user) {

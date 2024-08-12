@@ -36,6 +36,18 @@
               <v-text-field label="Account Number" variant="outlined" v-model="updAccount.number"></v-text-field>
             </v-row>
            </v-col>
+           <v-col>
+            <v-row>
+              <v-autocomplete
+                label="User"
+                variant="outlined"
+                v-model="updAccount.user_id"
+                :items="users"
+                item-title="name"
+                item-value="user_id">
+              </v-autocomplete>
+            </v-row>
+           </v-col>
           </section>
   
           <footer class="modal-footer">
@@ -71,25 +83,33 @@
   </template>
   
   <script>
+import { mapGetters } from 'vuex';
   
   export default {
       props: {
         header: String,
         account: Object,
       },
-      mounted() {
+      async mounted() {
         if (this.account?.id) {
           this.updAccount = {...this.account}
+        }
+        if (!this.users.length) {
+          this.users = await this.getUsersByFullName
         }
         this.loaded = true
       },
       data() {
           return {
             updAccount: {},
+            users: [],
             loaded: false,
           }
       },
       emits: ['closeModal', 'createAccount', 'editAccount'],
+      computed: {
+        ...mapGetters(['getUsersByFullName']),
+      },
       methods: {
         close() {
           this.$emit('closeModal')
@@ -99,7 +119,15 @@
         },  
         editAccount() {
           this.$emit('editAccount', this.updAccount)
-        }
+        },
+        getUserFullName(userId) {
+            let user = this.users.find(user => user.id === userId) 
+            if (user !== undefined) {
+                return `${user.firstName} ${user.lastName}`
+            } else {
+                return ''
+            }
+        },
       }
   }
   </script>
