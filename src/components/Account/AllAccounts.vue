@@ -13,10 +13,9 @@
         >
             <template v-slot:item="row">
             <tr>
-                <td>{{row.item.name}}</td>
+                <td><a v-bind:href="`accounts/${row.item.number}`"> {{row.item.name}} </a></td>
                 <td>{{row.item.number}}</td>
-                <!-- <td>{{ row.item.user }}</td> -->
-                <td>{{ getUserFullName(row.item.userId) }}</td>
+                <td><a v-bind:href="`user/${row.item.userId}`">{{ getUserFullName(row.item.userId) }}</a></td>
                 <td>
                     <v-btn
                         class="me-2 action-btn"

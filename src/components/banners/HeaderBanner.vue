@@ -71,11 +71,11 @@ export default {
       return {
         navItems: [
           { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
-          { title: 'Account', icon: 'mdi-home-export-outline', route: '/accounts' },
+          { title: 'Account', icon: 'mdi-list-box', route: '/accounts' },
           { title: 'Position', icon: 'mdi-cash', route: '/positions' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
           { title: 'Users', icon: 'mdi-account', route: '/users' },
-          { title: 'About', icon: 'mdi-help', route: '/about' },
+          { title: 'About', icon: 'mdi-help', route: '/contactUs' },
         ],
         showSearch: false,
         searchString: ''

@@ -93,6 +93,7 @@ import { mapGetters } from 'vuex';
       async mounted() {
         if (this.account?.id) {
           this.updAccount = {...this.account}
+          this.updAccount.user_id = this.updAccount.userId
         }
         if (!this.users.length) {
           this.users = await this.getUsersByFullName
@@ -119,14 +120,6 @@ import { mapGetters } from 'vuex';
         },  
         editAccount() {
           this.$emit('editAccount', this.updAccount)
-        },
-        getUserFullName(userId) {
-            let user = this.users.find(user => user.id === userId) 
-            if (user !== undefined) {
-                return `${user.firstName} ${user.lastName}`
-            } else {
-                return ''
-            }
         },
       }
   }

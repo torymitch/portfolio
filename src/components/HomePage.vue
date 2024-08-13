@@ -2,7 +2,7 @@
   <main>
     <WelcomeItem>
       <template #icon>
-        <v-icon icon="mdi-cash"></v-icon>
+        <v-icon icon="mdi-list-box"></v-icon>
       </template>
       <RouterLink to="/accounts">Accounts</RouterLink>
       Select this link to see your accounts
@@ -35,8 +35,8 @@
       <template #icon>
         <v-icon icon="mdi-help"></v-icon>
       </template>
-      <RouterLink to="/about">About</RouterLink>
-      Select to learn details about the application
+      <RouterLink to="/contactUs">Contact Us</RouterLink>
+      Select to ask a question about the application
     </WelcomeItem>
   </main>
 </template>
@@ -57,7 +57,7 @@ export default {
           { title: 'Portfolio', icon: 'mdi-cash', route: '/positions' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
           { title: 'Users', icon: 'mdi-account', route: '/users' },
-          { title: 'About', icon: 'mdi-menu', route: '/about' },
+          { title: 'Contact us', icon: 'mdi-help', route: '/contactUs' },
         ],
       }
     },
