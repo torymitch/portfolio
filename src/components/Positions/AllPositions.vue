@@ -15,9 +15,9 @@
             <tr>
                 <td>{{row.item.name}}</td>
                 <td>{{row.item.symbol}}</td>
-                <td>{{row.item.price}}</td>
                 <td>{{row.item.shares}}</td>
-                <td>{{row.item.total}}</td> 
+                <td>{{row.item.price}}</td>
+                <td>{{getTotal(row.item)}}</td>
                 <td>{{row.item.cost}}</td>
                 <td>
                     <v-btn
@@ -48,7 +48,7 @@
                         class="me-2 action-btn"
                         dark
                         small
-                        @click="addSell(row.item)"
+                        @click="addSale(row.item)"
                     >
                         <v-icon>mdi-minus-box</v-icon>
                     </v-btn> 
@@ -74,6 +74,11 @@
             @savePurchase="savePurchase"
             @closeModal="closeModal"
         />
+        <sell-modal v-if="showSellModal"
+            :position="position"
+            @saveSell="saveSell"
+            @closeModal="closeModal"
+        />
     </v-container>
 </template>
 
@@ -85,12 +90,14 @@ import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import PurchaseModal from './PurchaseModal.vue';
+import SellModal from './SellModal.vue'
 
 export default {
     components : {
         AddEditPositionModal,
         ConfirmDelete,
         PurchaseModal,
+        SellModal,
     },
 
     data() {
@@ -100,9 +107,9 @@ export default {
             headers: [
                 { title: 'Name', value: 'name', sortable: true, key: 'name' },
                 { title: 'Symbol', value: 'symbol', sortable: true },
-                { title: 'Price', value: 'price', sortable: true },
                 { title: 'Shares', value: 'shares', sortable: true },
-                { title: 'Total', value: 'total' },
+                { title: 'Price', value: 'price', sortable: true },
+                { title: 'Total' },
                 { title: 'Cost', value: 'cost' },
                 { title: 'Actions', value: 'actions' },
             ],
@@ -112,6 +119,7 @@ export default {
             showPositionModal: false,
             showDeleteModal: false,
             showPurchaseModal: false,
+            showSellModal: false,
             updateType: 'Add',
             position: {},
             deleteMsg: 'Are you sure you would like to delete this position?  <p>This action can not be undone!',
@@ -119,7 +127,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['positions', 'searchString']),
+        ...mapState(['positions', 'searchString'])
     },
     async created() {
         await this.fetchPositions()
@@ -140,6 +148,7 @@ export default {
             this.showPortfolioModal = false
             this.showPositionModal = false
             this.showPurchaseModal = false
+            this.showSellModal = false
             this.updateType = 'Add'
             this.user = {}
         },
@@ -183,13 +192,20 @@ export default {
             this.position = position
             this.showPurchaseModal = true
         },
+        addSale(position) {
+            this.position = position
+            this.showSellModal = true
+        },
         savePurchase(buy) {
             this.addBuy(buy)
             this.showPurchaseModal = false
         },
-        addSell(sell) {
+        saveSell(sell) {
             this.addSell(sell)
-            this.showPurchaseModal = false
+            this.showSellModal = false
+        },
+        getTotal(item) {
+            return item.shares * item.price;
         }
     },
 }
