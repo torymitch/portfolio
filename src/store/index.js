@@ -148,6 +148,23 @@ const store = new Vuex.Store({
         })
     },
 
+    // Buys
+    async addBuy({ state, dispatch }, buy) {
+      let buyParams = `/addBuy?account_id=${buy.account_id}&position_id=${buy.position_id}&shares=${buy.shares}&cost=${buy.cost}`
+      
+      axios
+        .post(`${state.baseURL}${buyParams}`, {
+          buy: buy
+        })
+        .then(response => {
+          console.log(`Response Is ${response}`)
+          dispatch('fetchPositions')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     // Accounts
     async fetchAccounts({commit, state}) {
       axios

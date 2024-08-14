@@ -34,7 +34,23 @@
                         small
                         @click="confirmDelete(row.item)"
                     >
-                    <v-icon>mdi-trash-can</v-icon>
+                        <v-icon>mdi-trash-can</v-icon>
+                    </v-btn>
+                    <v-btn
+                        class="me-2 action-btn"
+                        dark
+                        small
+                        @click="addPurchase(row.item)"
+                    >
+                        <v-icon>mdi-plus-box</v-icon>
+                    </v-btn> 
+                    <v-btn
+                        class="me-2 action-btn"
+                        dark
+                        small
+                        @click="addSell(row.item)"
+                    >
+                        <v-icon>mdi-minus-box</v-icon>
                     </v-btn> 
                 </td>
             </tr>
@@ -53,6 +69,11 @@
             @removePosition="removePosition"
             @closeModal="closeModal"
         />
+        <purchase-modal v-if="showPurchaseModal"
+            :position="position"
+            @savePurchase="savePurchase"
+            @closeModal="closeModal"
+        />
     </v-container>
 </template>
 
@@ -63,11 +84,13 @@ import AddEditPositionModal from './AddEditPositionModal.vue';
 import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import PurchaseModal from './PurchaseModal.vue';
 
 export default {
     components : {
         AddEditPositionModal,
         ConfirmDelete,
+        PurchaseModal,
     },
 
     data() {
@@ -88,6 +111,7 @@ export default {
             showPortfolioModal: false,
             showPositionModal: false,
             showDeleteModal: false,
+            showPurchaseModal: false,
             updateType: 'Add',
             position: {},
             deleteMsg: 'Are you sure you would like to delete this position?  <p>This action can not be undone!',
@@ -96,16 +120,6 @@ export default {
     },
     computed: {
         ...mapState(['positions', 'searchString']),
-    },
-    watch: {
-      searchString (val) {
-        if (!val) {
-          this.search = ''
-          return
-        }
-        this.search = val
-        
-      }
     },
     async created() {
         await this.fetchPositions()
@@ -119,12 +133,13 @@ export default {
       }
     },
     methods: {
-        ...mapActions(['addPosition', 'fetchPosition', 'fetchPositions', 'updatePosition', 'deletePosition']),
+        ...mapActions(['addPosition', 'addBuy', 'addSell', 'fetchPosition', 'fetchPositions', 'updatePosition', 'deletePosition']),
         ...mapMutations(['setSearchString']),
         closeModal() {
             this.showDeleteModal = false
             this.showPortfolioModal = false
             this.showPositionModal = false
+            this.showPurchaseModal = false
             this.updateType = 'Add'
             this.user = {}
         },
@@ -164,6 +179,18 @@ export default {
                     }))    
             .then( this.closeModal() )
         },
+        addPurchase(position) {
+            this.position = position
+            this.showPurchaseModal = true
+        },
+        savePurchase(buy) {
+            this.addBuy(buy)
+            this.showPurchaseModal = false
+        },
+        addSell(sell) {
+            this.addSell(sell)
+            this.showPurchaseModal = false
+        }
     },
 }
 
