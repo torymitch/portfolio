@@ -28,7 +28,7 @@
               <v-autocomplete
                 label="Account"
                 variant="outlined"
-                v-model="buyOrder.account_id"
+                v-model="buyOrder.accountId"
                 :items="accounts"
                 item-title="name"
                 item-value="id">
@@ -40,7 +40,7 @@
               <v-autocomplete
                 label="Position"
                 variant="outlined"
-                v-model="buyOrder.position_id"
+                v-model="buyOrder.positionId"
                 :items="positions"
                 item-title="name"
                 item-value="id">

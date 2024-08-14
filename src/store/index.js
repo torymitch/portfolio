@@ -150,7 +150,7 @@ const store = new Vuex.Store({
 
     // Buys
     async addBuy({ state, dispatch }, buy) {
-      let buyParams = `/addBuy?account_id=${buy.account_id}&position_id=${buy.position_id}&shares=${buy.shares}&cost=${buy.cost}`
+      let buyParams = `/addBuy?accountId=${buy.accountId}&positionId=${buy.positionId}&shares=${buy.shares}&cost=${buy.cost}`
       
       axios
         .post(`${state.baseURL}${buyParams}`, {
