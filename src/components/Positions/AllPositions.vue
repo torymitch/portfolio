@@ -48,6 +48,7 @@
                         class="me-2 action-btn"
                         dark
                         small
+                        :disabled="saleDisabled(row.item)"
                         @click="addSale(row.item)"
                     >
                         <v-icon>mdi-minus-box</v-icon>
@@ -191,6 +192,12 @@ export default {
         addPurchase(position) {
             this.position = position
             this.showPurchaseModal = true
+        },
+        saleDisabled(position) {
+            if (!position.shares) {
+                return true 
+            } 
+            return false
         },
         addSale(position) {
             this.position = position

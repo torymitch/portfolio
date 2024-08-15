@@ -54,7 +54,12 @@
            </v-col>
            <v-col>
             <v-row>
-              <v-text-field label="Cost" variant="outlined" v-model="buyOrder.cost"></v-text-field>
+              <v-text-field label="Cost Per Share" variant="outlined" v-model="buyOrder.costPerShare"></v-text-field>
+            </v-row>
+           </v-col>
+           <v-col>
+            <v-row>
+              <v-text-field label="Total Cost" variant="outlined" v-model="buyOrder.totalCost" readonly></v-text-field>
             </v-row>
            </v-col>
         </section>
@@ -106,6 +111,15 @@ export default {
         ...mapState(['accounts', 'positions']),
     },
 
+    watch: {
+      'buyOrder.shares': function () {
+        this.calculateTotal()
+      },
+      'buyOrder.costPerShare': function () {
+        this.calculateTotal()
+      },
+    },
+    
     data() {
         return {
             updPosition: {},
@@ -121,10 +135,15 @@ export default {
       
       addBuy() {
         this.$emit('savePurchase', this.buyOrder)
-        },
-        cancel() {
-          this.$emit('closeModal')
+      },
+      cancel() {
+        this.$emit('closeModal')
+      },
+      calculateTotal() {
+        if (this.buyOrder.shares && this.buyOrder.costPerShare) {
+          this.buyOrder.totalCost = this.buyOrder.shares * this.buyOrder.costPerShare
         }
+      }
     },
 }
 </script>
