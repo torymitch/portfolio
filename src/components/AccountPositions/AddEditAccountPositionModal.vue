@@ -80,8 +80,7 @@
           </footer> 
         </div>
       </div>
-  </template>
-  
+</template>
 <script>
 import { mapGetters } from 'vuex';
   

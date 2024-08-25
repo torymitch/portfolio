@@ -9,6 +9,7 @@ const store = new Vuex.Store({
       user: [],
       positions: [],
       accounts: [],
+      accountPositions: [],
       searchString: '',
     }
   },
@@ -148,6 +149,30 @@ const store = new Vuex.Store({
         })
     },
 
+    // Account Positions
+    async fetchAccountPositions({commit, state}) {
+      axios
+        .get(state.baseURL + '/getAccountPositions')
+        .then(response => {
+          commit('setAccountPositions', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async fetchAccountPositionsByAccountId({commit, state}, id) {
+      let params = `/getAccountPositionsByAccountId?id=${id}`
+      axios
+        .get(`${state.baseURL}${params}`)
+        .then(response => {
+          commit('setAccountPositions', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     // Buys
     async addBuy({ state, dispatch }, buy) {
       let buyParams = `/addBuy?accountId=${buy.accountId}&positionId=${buy.positionId}&shares=${buy.shares}&costPerShare=${buy.costPerShare}&totalCost=${buy.totalCost}`
@@ -254,6 +279,9 @@ const store = new Vuex.Store({
     },
     setAccounts(state, response) {
       state.accounts = response.data
+    },
+    setAccountPositions(state, response) {
+      state.accountPositions = response.data
     },
     setSearchString(state, searchString) {
       state.searchString = searchString
