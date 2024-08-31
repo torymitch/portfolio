@@ -14,7 +14,6 @@
             <template v-slot:item="row">
             <tr>
                 <td><a v-bind:href="`accounts/${row.item.number}`"> {{row.item.name}} </a></td>
-                <!-- <td><a v-bind:href="`accounts/${row.item.id}`"> {{row.item.number}} </a></td> -->
                 <td>{{row.item.number}}</td>
                 <td><a v-bind:href="`user/${row.item.userId}`">{{ getUserFullName(row.item.userId) }}</a></td>
                 <td>
@@ -43,8 +42,7 @@
             @createAccount="createAccount"
             @editAccount="editAccount"
             :account="account"
-            :updateType="updateType"
-            modalTitle="Account"
+            :header="updateType"
         />
         <confirm-delete v-if="showDeleteModal"
             :message="deleteMsg"
@@ -60,8 +58,6 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import AddEditAccountModal from './AddEditAccountModal.vue';
 import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
 
 export default {
     components : {
@@ -131,33 +127,22 @@ export default {
             this.updateType = 'Edit'
             this.showAddEditAccount(account)
         },
-        async createAccount(account) {
-            await this.addAccount(account)
-                .then(
-                    toast('Account Created Succesfully', {
-                        autoClose: 1000,
-                    }))
-                .then( this.closeModal() )
+        createAccount(account) {
+            this.addAccount(account)
+            this.closeModal()
         },
-        async editAccount(account) {
-            await this.updateAccount(account)
-                .then(
-                    toast('Account Updated Succesfully', {
-                        autoClose: 1000,
-                    }))
-                .then( this.closeModal() )
+
+        editAccount(account) {
+            this.updateAccount(account)
+            this.closeModal()
         },
         confirmDelete(account) {
             this.account = account
             this.showDeleteModal = true
         },
-        async removeAccount() {
-            await this.deleteAccount(this.account)
-            .then(
-                    toast('Account Deleted Succesfully', {
-                        autoClose: 1000,
-                    }))    
-            .then( this.closeModal() )
+        removeAccount() {
+            this.deleteAccount(this.account)
+            this.closeModal()
         },
         getUserFullName(userId) {
             let user = this.users.find(user => user.id === userId) 

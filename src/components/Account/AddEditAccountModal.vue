@@ -10,7 +10,7 @@
             id="modalTitle"
           >
             <slot name="header">
-              {{ header }} 
+              {{ modalTitle }} 
             </slot>
             <button
               type="button"
@@ -41,10 +41,10 @@
               <v-autocomplete
                 label="User"
                 variant="outlined"
-                v-model="updAccount.user_id"
+                v-model="updAccount.userId"
                 :items="users"
                 item-title="name"
-                item-value="user_id">
+                item-value="userId">
               </v-autocomplete>
             </v-row>
            </v-col>
@@ -93,7 +93,6 @@ import { mapGetters } from 'vuex';
       async mounted() {
         if (this.account?.id) {
           this.updAccount = {...this.account}
-          this.updAccount.user_id = this.updAccount.userId
         }
         if (!this.users.length) {
           this.users = await this.getUsersByFullName
@@ -110,6 +109,9 @@ import { mapGetters } from 'vuex';
       emits: ['closeModal', 'createAccount', 'editAccount'],
       computed: {
         ...mapGetters(['getUsersByFullName']),
+        modalTitle() {
+          return this.header === 'Add' ? 'Add New Account' : `Edit ${this.account.name}`
+        },
       },
       methods: {
         close() {

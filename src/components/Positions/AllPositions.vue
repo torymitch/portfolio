@@ -88,8 +88,6 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import AddEditPositionModal from './AddEditPositionModal.vue';
 import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
 import PurchaseModal from './PurchaseModal.vue';
 import SellModal from './SellModal.vue'
 
@@ -163,18 +161,10 @@ export default {
         },
         async createPosition(position) {
             await this.addPosition(position)
-                .then(
-                    toast('Position Created Succesfully', {
-                        autoClose: 1000,
-                    }))
                 .then( this.closeModal() )
         },
         async editPosition(position) {
             await this.updatePosition(position)
-                .then(
-                    toast('Position Updated Succesfully', {
-                        autoClose: 1000,
-                    }))
                 .then( this.closeModal() )
         },
         confirmDelete(position) {
@@ -183,10 +173,6 @@ export default {
         },
         async removePosition() {
             await this.deletePosition(this.position)
-            .then(
-                    toast('Position Deleted Succesfully', {
-                        autoClose: 1000,
-                    }))    
             .then( this.closeModal() )
         },
         addPurchase(position) {
@@ -218,7 +204,7 @@ export default {
 }
 
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 .table{
     min-width: 100dvw;
 }
