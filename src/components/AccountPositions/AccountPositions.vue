@@ -15,6 +15,7 @@
             <tr>
                 <td>{{ getPositionInfo(row.item, 'name') }}</td>
                 <td>{{ getPositionInfo(row.item, 'symbol') }}</td>
+                <td>{{ getBuyInfo(row.item, 'shares') }}</td>
                 <td>
                     <v-btn
                         class="me-2 action-btn"
@@ -68,6 +69,7 @@ export default {
             headers: [
                 { title: 'Name', value: 'position_name', sortable: true },
                 { title: 'Symbol', value: 'position_symbol', sortable: true },
+                { title: 'Shares', value: 'buy_shares', sortable: true },
                 { title: 'Actions', value: 'actions' },
             ],
             accountPositionsPerPage: 5,
@@ -82,7 +84,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['accountPositions', 'accounts', 'positions', 'searchString']),
+        ...mapState(['accountPositions', 'accounts', 'positions', 'buys', 'searchString']),
     },
     watch: {
       searchString (val) {
@@ -95,14 +97,17 @@ export default {
       }
     },
     async created() {
-        await this.fetchAccountPositions()
-        // await this.fetchAccountPositionsByAccountId(1)
+        await this.fetchAccountPositionsByAccountId(this.$route.params.id)
+        if (!this.buys.length) {
+            await this.fetchBuysByAccountId(this.$route.params.id)
+        }
         if (!this.accounts.length) {
             await this.fetchAccounts()
         }
         if (!this.positions.length) {
             await this.fetchPositions()
         }
+        
     },
     mounted() {    
         this.loaded = true
@@ -113,21 +118,26 @@ export default {
       }
     },
     methods: {
-        ...mapActions(['fetchAccountPositions', 'fetchAccountPositionsByAccountId', 'fetchAccounts', 'fetchPositions', 'deleteAccountPosition']),
+        ...mapActions(['fetchAccountPositions', 'fetchAccountPositionsByAccountId', 'fetchBuysByAccountId', 'fetchSalesByAccountIdAndPositionId', 'fetchAccounts', 'fetchPositions', 'fetchBuys', 'fetchBuysByAccountIdAndPositionId', 'deleteAccountPosition']),
         ...mapMutations(['setSearchString']),
         getAccountInfo(item, field) {
             if (this.accounts.length) {
-                {
-                    let account = this.accounts.find(account => account.number === this.$route.params.id )
-                    return account[field]   
-                }  
+                let account = this.accounts.find(account => account.id === parseInt(this.$route.params.id))
+                return account[field]   
             }
         },
         getPositionInfo(item, field) {
             if (this.positions.length) {
                 let position = this.positions.find(position => position.id === item.positionId)
-                return position[field]    
+                return position[field]
             }
+        },
+        async getBuyInfo(item, field) {
+            if (this.buys.length) {
+                let buy = this.buys.find(buy => buy.positionId === item.positionId)
+                return buy[field]
+            }
+            
         },
         confirmDelete(accountPosition) {
             this.accountPosition = accountPosition

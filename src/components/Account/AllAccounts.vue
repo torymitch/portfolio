@@ -14,6 +14,7 @@
             <template v-slot:item="row">
             <tr>
                 <td><a v-bind:href="`accounts/${row.item.number}`"> {{row.item.name}} </a></td>
+                <!-- <td><a v-bind:href="`accounts/${row.item.id}`"> {{row.item.number}} </a></td> -->
                 <td>{{row.item.number}}</td>
                 <td><a v-bind:href="`user/${row.item.userId}`">{{ getUserFullName(row.item.userId) }}</a></td>
                 <td>
@@ -78,7 +79,7 @@ export default {
                 { title: 'Owner', value: 'user_id', sortable: true },
                 { title: 'Actions', value: 'actions' },
             ],
-            accountsPerPage: 5,
+            accountsPerPage: 10,
             actions: [],
             showAccountModal: false,
             showDeleteModal: false,
