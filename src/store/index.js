@@ -185,19 +185,23 @@ const store = new Vuex.Store({
 
     // Buys
     async addBuy({ state, dispatch }, buy) {
-      let buyParams = `/addBuy?accountId=${buy.accountId}&positionId=${buy.positionId}&shares=${buy.shares}&costPerShare=${buy.costPerShare}&totalCost=${buy.totalCost}`
-      
-      axios
-        .post(`${state.baseURL}${buyParams}`, {
-          buy: buy
-        })
-        .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        axios
+          .post(`${state.baseURL}/addBuy`, buy)
+          .then(response => {
+            if (response.status === 200) {
+              dispatch('fetchPositions')
+              toast('Buy Order Created Succesfully', {
+                  autoClose: state.toastAutoClose,
+              })
+            } else {
+              toast('Buy Order Creation Failed', {
+                autoClose: state.toastAutoClose,
+            })}
+
+          })
+          .catch(error => {
+            console.log(error)
+          })
     },
 
     fetchBuysByAccountId({ state, commit }, id) {
@@ -225,16 +229,19 @@ const store = new Vuex.Store({
     },
 
     // Sells
-    async addSell({ state, dispatch }, sale) {
-      let sellParams = `/addSell?accountId=${sale.accountId}&positionId=${sale.positionId}&shares=${sale.shares}&soldPrice=${sale.soldPrice}`
-      
+    async addSell({ state, dispatch }, sell) {
       axios
-        .post(`${state.baseURL}${sellParams}`, {
-          sale: sale
-        })
+        .post(`${state.baseURL}/addSell`, sell)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
+          if (response.status === 200) {
+            dispatch('fetchPositions')
+            toast('Sell Order Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('Sell Order Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
