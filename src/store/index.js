@@ -9,6 +9,7 @@ const store = new Vuex.Store({
       user: [],
       positions: [],
       accounts: [],
+      buys: [],
       accountPositions: [],
       searchString: '',
     }
@@ -190,6 +191,30 @@ const store = new Vuex.Store({
         })
     },
 
+    fetchBuysByAccountId({ state, commit }, id) {
+      let params = `/fetchBuysByAccountId?id=${id}`
+      axios
+        .get(`${state.baseURL}${params}`)
+        .then(response => {
+          commit('setBuys', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    fetchBuysByAccountIdAndPositionId({ state, commit }, object) {
+      let params = `/fetchBuysByAccountIdAndPositionId?accountId=${object.accountId}&positionId=${object.positionId}`
+      axios
+        .get(`${state.baseURL}${params}`)
+        .then(response => {
+          commit('setBuys', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     // Sells
     async addSell({ state, dispatch }, sale) {
       let sellParams = `/addSell?accountId=${sale.accountId}&positionId=${sale.positionId}&shares=${sale.shares}&soldPrice=${sale.soldPrice}`
@@ -219,23 +244,16 @@ const store = new Vuex.Store({
         })
     },
     async addAccount({ state, dispatch }, account) {
-      let accountParams = `/addAccount?name=${account.name}&number=${account.number}&user_id=${account.user_id}`
-      
       axios
-        .post(`${state.baseURL}${accountParams}`, {
-          account: account
-        })
+        .post(`${state.baseURL}/addAccount`, account)
         .then( dispatch('fetchAccounts') )
         .catch(error => {
           console.log(error)
         })
     },
     async updateAccount({ state, dispatch }, account) {
-      let accountParams = `/updateAccount?id=${account.id}&name=${account.name}&number=${account.number}&user_id=${account.user_id}`
       axios
-        .put(`${state.baseURL}${accountParams}`, {
-          account: account
-        })
+        .put(`${state.baseURL}/updateAccount`, account)
         .then(response => {
           console.log(`Response Is ${response}`)
           dispatch('fetchAccounts')
@@ -246,9 +264,7 @@ const store = new Vuex.Store({
     },
     async deleteAccount({ state, dispatch }, account) {
       axios
-        .delete(`${state.baseURL}/deleteAccount?id=${account.id}`, {
-          account: account
-        })
+        .delete(`${state.baseURL}/deleteAccount?id=${account.id}`)
         .then( dispatch('fetchAccounts') )
         .catch(error => {
           console.log(error)
@@ -279,6 +295,9 @@ const store = new Vuex.Store({
     },
     setAccounts(state, response) {
       state.accounts = response.data
+    },
+    setBuys(state, response) {
+      state.buys = response.data
     },
     setAccountPositions(state, response) {
       state.accountPositions = response.data
