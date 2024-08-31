@@ -44,40 +44,39 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
-    // async addUser({ commit, state }, updUser) {
-    //   axios
-    //     .post(`${state.baseURL}/addUser`, {
-    //       user: updUser
-    //     })
-    //     .then(response => {
-    //       commit('setUsers', response)
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // },
-
+  
     async addUser({ state, dispatch }, user) {
-      let userParams = `/addUser?first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
-        .post(`${state.baseURL}${userParams}`, {
-          user: user
+        .post(`${state.baseURL}/addUser`, user)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast('User Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('User Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
-        .then( dispatch('fetchUsers') )
         .catch(error => {
           console.log(error)
         })
     },
 
     async updateUser({ state, dispatch }, user) {
-      let userParams = `/updateUser?id=${user.id}&first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
-        .put(`${state.baseURL}${userParams}`, {
-          user: user
-        })
+        .put(`${state.baseURL}/updateUser`, user)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchUsers')
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast('User Updated Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('User Update Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
@@ -86,10 +85,14 @@ const store = new Vuex.Store({
 
     async deleteUser({ state, dispatch }, user) {
       axios
-        .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
-          user: user
-        })
-        .then( dispatch('fetchUsers') )
+        .delete(`${state.baseURL}/deleteUser?id=${user.id}`)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast(`User, ${user.firstName} ${user.lastName}, Deleted Succesfully`, {
+              autoClose: state.toastAutoClose
+            })
+          }})
         .catch(error => {
           console.log(error)
         })
