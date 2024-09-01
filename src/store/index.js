@@ -273,12 +273,19 @@ const store = new Vuex.Store({
                 autoClose: state.toastAutoClose,
             })
           } else {
-            toast('Account Creation Errored', {
+            toast('Account Creation Errored:\n', {
               autoClose: state.toastAutoClose,
           })}})
         .catch(error => {
-          console.log(error)
-        })
+          let errorToDisplay = ''
+
+          Object.values(error.response.data).forEach(value => {
+            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
+          })
+        
+          toast(`Account Creation Errored:\n ${errorToDisplay}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
     updateAccount({ state, dispatch }, account) {
       axios
@@ -290,8 +297,15 @@ const store = new Vuex.Store({
               autoClose: state.toastAutoClose,
           })}})
         .catch(error => {
-          console.log(error)
-        })
+          let errorToDisplay = ''
+
+          Object.values(error.response.data).forEach(value => {
+            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
+          })
+        
+          toast(`Account Update Errored:\n ${errorToDisplay}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
 
     deleteAccount({ state, dispatch }, account) {
@@ -306,8 +320,9 @@ const store = new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log(error)
-        })
+          toast(`Account Update Errored:\n ${error.message}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
   },
   getters: {
