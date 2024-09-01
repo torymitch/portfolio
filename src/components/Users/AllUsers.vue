@@ -60,8 +60,6 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import AddEditUserModal from './AddEditUserModal.vue';
 import ConfirmDelete from '../confirmations/ConfirmDelete.vue';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
 
 export default {
     components : {
@@ -132,33 +130,21 @@ export default {
             this.updateType = 'Edit'
             this.showAddEditUser(user)
         },
-        async createUser(user) {
-            await this.addUser(user)
-                .then(
-                    toast('User Created Succesfully', {
-                        autoClose: 1000,
-                    }))
-                .then( this.closeModal() )
+        createUser(user) {
+            this.addUser(user)
+            this.closeModal()
         },
-        async editUser(user) {
-            await this.updateUser(user)
-                .then(
-                    toast('User Updated Succesfully', {
-                        autoClose: 1000,
-                    }))
-                .then( this.closeModal() )
+        editUser(user) {
+            this.updateUser(user)
+            this.closeModal()
         },
         confirmDelete(user) {
             this.user = user
             this.showDeleteModal = true
         },
-        async removeUser() {
-            await this.deleteUser(this.user)
-            .then(
-                    toast('User Deleted Succesfully', {
-                        autoClose: 1000,
-                    }))    
-            .then( this.closeModal() )
+        removeUser() {
+            this.deleteUser(this.user)
+            this.closeModal()
         },
     },
 }

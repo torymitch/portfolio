@@ -1,5 +1,7 @@
 import Vuex from 'vuex'
 import axios from 'axios'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const store = new Vuex.Store({
   state() {
@@ -12,6 +14,7 @@ const store = new Vuex.Store({
       buys: [],
       accountPositions: [],
       searchString: '',
+      toastAutoClose: 1000,
     }
   },
   actions: {
@@ -41,40 +44,39 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
-    // async addUser({ commit, state }, updUser) {
-    //   axios
-    //     .post(`${state.baseURL}/addUser`, {
-    //       user: updUser
-    //     })
-    //     .then(response => {
-    //       commit('setUsers', response)
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // },
-
+  
     async addUser({ state, dispatch }, user) {
-      let userParams = `/addUser?first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
-        .post(`${state.baseURL}${userParams}`, {
-          user: user
+        .post(`${state.baseURL}/addUser`, user)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast('User Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('User Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
-        .then( dispatch('fetchUsers') )
         .catch(error => {
           console.log(error)
         })
     },
 
     async updateUser({ state, dispatch }, user) {
-      let userParams = `/updateUser?id=${user.id}&first_name=${user.firstName}&last_name=${user.lastName}&user_name=${user.userName}&email_address=${user.emailAddress}&phone_number=${user.phoneNumber}`
       axios
-        .put(`${state.baseURL}${userParams}`, {
-          user: user
-        })
+        .put(`${state.baseURL}/updateUser`, user)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchUsers')
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast('User Updated Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('User Update Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
@@ -83,10 +85,14 @@ const store = new Vuex.Store({
 
     async deleteUser({ state, dispatch }, user) {
       axios
-        .delete(`${state.baseURL}/deleteUser?id=${user.id}`, {
-          user: user
-        })
-        .then( dispatch('fetchUsers') )
+        .delete(`${state.baseURL}/deleteUser?id=${user.id}`)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch('fetchUsers')
+            toast(`User, ${user.firstName} ${user.lastName}, Deleted Succesfully`, {
+              autoClose: state.toastAutoClose
+            })
+          }})
         .catch(error => {
           console.log(error)
         })
@@ -104,32 +110,36 @@ const store = new Vuex.Store({
         })
     },
     async addPosition({ state, dispatch }, position) {
-      // let positionParams = `/addPosition?name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=${position.total}&cost=${position.cost}`
-      // let positionParams = `/addPosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=0f&total=0f&cost=0f`
-      let positionParams = `/addPosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=0f&cost=0f`
-      
       axios
-        .post(`${state.baseURL}${positionParams}`, {
-          position: position
-        })
+        .post(`${state.baseURL}/addPosition`, position)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
+          if (response.status === 200) {
+            dispatch('fetchPositions')
+            toast('Position Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('Position Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
         })
     },
     async updatePosition({ state, dispatch }, position) {
-      // let positionParams = `/updatePosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=${position.total}&cost=${position.cost}`
-      let positionParams = `/updatePosition?id=${position.id}&name=${position.name}&symbol=${position.symbol}&price=${position.price}&total=0.00&cost=0.00`
       axios
-        .put(`${state.baseURL}${positionParams}`, {
-          position: position
-        })
+        .put(`${state.baseURL}/updatePosition`, position)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
+          if (response.status === 200) {
+            dispatch('fetchPositions')
+            toast('Position Updated Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('Position Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
@@ -138,12 +148,14 @@ const store = new Vuex.Store({
 
     async deletePosition({ state, dispatch }, position) {
       axios
-        .delete(`${state.baseURL}/deletePosition?id=${position.id}`, {
-          position: position
-        })
+        .delete(`${state.baseURL}/deletePosition?id=${position.id}`)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
+          if (response.status === 200) {
+            dispatch('fetchPositions')
+            toast(`Position, ${position.symbol}, Deleted Succesfully`, {
+              autoClose: state.toastAutoClose
+            })
+          }
         })
         .catch(error => {
           console.log(error)
@@ -176,19 +188,23 @@ const store = new Vuex.Store({
 
     // Buys
     async addBuy({ state, dispatch }, buy) {
-      let buyParams = `/addBuy?accountId=${buy.accountId}&positionId=${buy.positionId}&shares=${buy.shares}&costPerShare=${buy.costPerShare}&totalCost=${buy.totalCost}`
-      
-      axios
-        .post(`${state.baseURL}${buyParams}`, {
-          buy: buy
-        })
-        .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        axios
+          .post(`${state.baseURL}/addBuy`, buy)
+          .then(response => {
+            if (response.status === 200) {
+              dispatch('fetchPositions')
+              toast('Buy Order Created Succesfully', {
+                  autoClose: state.toastAutoClose,
+              })
+            } else {
+              toast('Buy Order Creation Failed', {
+                autoClose: state.toastAutoClose,
+            })}
+
+          })
+          .catch(error => {
+            console.log(error)
+          })
     },
 
     fetchBuysByAccountId({ state, commit }, id) {
@@ -216,16 +232,19 @@ const store = new Vuex.Store({
     },
 
     // Sells
-    async addSell({ state, dispatch }, sale) {
-      let sellParams = `/addSell?accountId=${sale.accountId}&positionId=${sale.positionId}&shares=${sale.shares}&soldPrice=${sale.soldPrice}`
-      
+    async addSell({ state, dispatch }, sell) {
       axios
-        .post(`${state.baseURL}${sellParams}`, {
-          sale: sale
-        })
+        .post(`${state.baseURL}/addSell`, sell)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchPositions')
+          if (response.status === 200) {
+            dispatch('fetchPositions')
+            toast('Sell Order Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('Sell Order Creation Failed', {
+              autoClose: state.toastAutoClose,
+          })}
         })
         .catch(error => {
           console.log(error)
@@ -243,32 +262,67 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
-    async addAccount({ state, dispatch }, account) {
+
+    addAccount({ state, dispatch }, account) {
       axios
         .post(`${state.baseURL}/addAccount`, account)
-        .then( dispatch('fetchAccounts') )
+        .then( response => {
+          if (response.status === 200) {
+            dispatch('fetchAccounts') 
+            toast('Account Created Succesfully', {
+                autoClose: state.toastAutoClose,
+            })
+          } else {
+            toast('Account Creation Errored:\n', {
+              autoClose: state.toastAutoClose,
+          })}})
         .catch(error => {
-          console.log(error)
-        })
+          let errorToDisplay = ''
+
+          Object.values(error.response.data).forEach(value => {
+            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
+          })
+        
+          toast(`Account Creation Errored:\n ${errorToDisplay}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
-    async updateAccount({ state, dispatch }, account) {
+    updateAccount({ state, dispatch }, account) {
       axios
         .put(`${state.baseURL}/updateAccount`, account)
         .then(response => {
-          console.log(`Response Is ${response}`)
-          dispatch('fetchAccounts')
-        })
+          if (response.status === 200) {
+            dispatch('fetchAccounts')
+            toast('Account Updated Succesfully', {
+              autoClose: state.toastAutoClose,
+          })}})
         .catch(error => {
-          console.log(error)
-        })
+          let errorToDisplay = ''
+
+          Object.values(error.response.data).forEach(value => {
+            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
+          })
+        
+          toast(`Account Update Errored:\n ${errorToDisplay}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
-    async deleteAccount({ state, dispatch }, account) {
+
+    deleteAccount({ state, dispatch }, account) {
       axios
         .delete(`${state.baseURL}/deleteAccount?id=${account.id}`)
-        .then( dispatch('fetchAccounts') )
-        .catch(error => {
-          console.log(error)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch('fetchAccounts') 
+            toast(`Account, ${account.name}, Deleted Succesfully`, {
+                autoClose: state.toastAutoClose,
+            })
+          }
         })
+        .catch(error => {
+          toast(`Account Update Errored:\n ${error.message}`, {
+            autoClose: state.toastAutoClose,
+        })})
     },
   },
   getters: {
@@ -276,7 +330,7 @@ const store = new Vuex.Store({
       let userNames = []
       state.users.forEach(user => {
         userNames.push({
-          user_id: user.id,
+          userId: user.id,
           name: `${user.firstName} ${user.lastName}`
         });
       })
