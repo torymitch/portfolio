@@ -3,6 +3,18 @@ import axios from 'axios'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
+function displayValidationError(entity, error, autoCloseTime) {
+  let errorToDisplay = ''
+
+    Object.values(error.response.data).forEach(value => {
+      errorToDisplay = errorToDisplay.concat(`\n${value}`) 
+    })
+
+    toast(`${entity} Errored:\n ${errorToDisplay}`, {
+      autoClose: autoCloseTime,
+    })
+}
+
 const store = new Vuex.Store({
   state() {
     return {
@@ -124,7 +136,7 @@ const store = new Vuex.Store({
           })}
         })
         .catch(error => {
-          console.log(error)
+          displayValidationError('Position Creation', error, state.toastAutoClose)
         })
     },
     async updatePosition({ state, dispatch }, position) {
@@ -142,7 +154,7 @@ const store = new Vuex.Store({
           })}
         })
         .catch(error => {
-          console.log(error)
+          displayValidationError('Position Update', error, state.toastAutoClose)
         })
     },
 
@@ -277,15 +289,8 @@ const store = new Vuex.Store({
               autoClose: state.toastAutoClose,
           })}})
         .catch(error => {
-          let errorToDisplay = ''
-
-          Object.values(error.response.data).forEach(value => {
-            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
-          })
-        
-          toast(`Account Creation Errored:\n ${errorToDisplay}`, {
-            autoClose: state.toastAutoClose,
-        })})
+          displayValidationError('Account Creation', error, state.toastAutoClose)
+        })
     },
     updateAccount({ state, dispatch }, account) {
       axios
@@ -297,15 +302,8 @@ const store = new Vuex.Store({
               autoClose: state.toastAutoClose,
           })}})
         .catch(error => {
-          let errorToDisplay = ''
-
-          Object.values(error.response.data).forEach(value => {
-            errorToDisplay = errorToDisplay.concat(`\n${value}`) 
-          })
-        
-          toast(`Account Update Errored:\n ${errorToDisplay}`, {
-            autoClose: state.toastAutoClose,
-        })})
+          displayValidationError('Account Update', error, state.toastAutoClose)
+        })
     },
 
     deleteAccount({ state, dispatch }, account) {
