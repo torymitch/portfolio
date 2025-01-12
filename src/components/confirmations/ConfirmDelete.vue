@@ -74,7 +74,7 @@ export default {
         }
     },
 
-    emits: ['removeUser', 'removePosition', 'removeAccount', 'closeModal'],
+    emits: ['removeUser', 'removePosition', 'removeAccount', 'removeChecklist', 'closeModal'],
 
     methods: {
       
@@ -89,6 +89,9 @@ export default {
               break
             case 'Account':
               this.$emit('removeAccount')
+              break
+            case 'Checklist':
+              this.$emit('removeChecklist')
               break
           }
         },

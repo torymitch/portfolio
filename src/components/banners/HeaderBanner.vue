@@ -72,6 +72,7 @@ export default {
         navItems: [
           { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
           { title: 'Account', icon: 'mdi-list-box', route: '/accounts' },
+          { title: 'Checklist', icon: 'mdi-list-box', route: '/checklists' },
           { title: 'Position', icon: 'mdi-cash', route: '/positions' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
           { title: 'Users', icon: 'mdi-account', route: '/users' },

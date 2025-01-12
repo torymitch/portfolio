@@ -2,6 +2,13 @@
   <main>
     <WelcomeItem>
       <template #icon>
+        <v-icon icon="mdi-check"></v-icon>
+      </template>
+      <RouterLink to="/checklists">Checklist</RouterLink>
+      Select this link to see your checklist
+    </WelcomeItem>
+    <WelcomeItem>
+      <template #icon>
         <v-icon icon="mdi-list-box"></v-icon>
       </template>
       <RouterLink to="/accounts">Accounts</RouterLink>
@@ -53,6 +60,7 @@ export default {
       return {
         navItems: [
           { title: 'Home', icon: 'mdi-home-export-outline', route: '/home' },
+          { title: 'Checklist', icon: 'mdi-home-export-outline', route: '/checklist' },
           { title: 'Account', icon: 'mdi-home-export-outline', route: '/account' },
           { title: 'Portfolio', icon: 'mdi-cash', route: '/positions' },
           { title: 'Watchlist', icon: 'mdi-watch', route: '/watchList' },
